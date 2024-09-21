@@ -282,9 +282,9 @@ function openAppointmentForm() {
             <h2>Book an Appointment</h2>
             <p>Kindly fill out the below with as much detail as you can to enable us provide the best service</p>
             <form id="appointment-form">
-                <input type="text" placeholder="NAME* (Firstname Lastname)" required>
-                <input type="email" placeholder="EMAIL*" required>
-                <input type="tel" placeholder="PHONE*" required>
+                <input type="text" placeholder="NAME (Firstname Lastname)" required>
+                <input type="email" placeholder="EMAIL" required>
+                <input type="tel" placeholder="PHONE" required>
                 <input type="text" placeholder="ADDRESS (Street, City, Country)">
                 <select name="service" id="service-type" required>
                     <option value="">Select a service </option>

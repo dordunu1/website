@@ -1,0 +1,1005 @@
+:root {
+    --primary-color: #FFD700;
+    --secondary-color: #000000;
+    --text-color: #333333;
+    --background-color: #FFFFFF;
+    --accent-color: #FFA500;
+    --glow-color: rgba(255, 215, 0, 0.5);
+    --motto-color: #FF1493;
+    --light-yellow: #FFFDF0;
+    --soft-yellow: #FFF8DC;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.1;
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    position: relative;
+    overflow-x: hidden;
+    font-size: 13px;
+}
+
+header {
+    background-color: var(--primary-color);
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 50px;
+    margin-right: 10px;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.brand-motto {
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-links li {
+    list-style: none;
+    margin: 0 15px;
+}
+
+.nav-links a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    letter-spacing: 1px;
+    font-weight: normal;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.nav-links {
+    font-family: 'Roboto', sans-serif; /* or whichever font you're using for navigation */
+}
+
+.more-menu {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--primary-color);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.more-menu:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li {
+    margin: 10px 0;
+}
+
+.dropdown-menu a {
+    white-space: nowrap;
+}
+
+.burger {
+    display: none;
+    cursor: pointer;
+}
+
+.burger div {
+    width: 25px;
+    height: 3px;
+    background-color: var(--secondary-color);
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem 2rem;
+}
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.slideshow-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: white;
+    max-width: 800px;
+    padding: 20px;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: white;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.about, .services, .portfolio, .testimonials, .contact {
+    padding: 4rem 0;
+}
+
+.about, .testimonials {
+    background-color: var(--soft-yellow);
+}
+
+.services, .portfolio, .contact {
+    background-color: var(--light-yellow);
+}
+
+h2, h3, h4 {
+    font-family: ui-monospace;
+    color: var(--secondary-color);
+    text-align: center;
+    font-weight: 400;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+h3 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.process-steps {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    gap: 2rem;
+}
+
+.step {
+    flex-basis: calc(25% - 1.5rem);
+    background-color: var(--background-color);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.service-card-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.service-card {
+    flex-basis: calc(25% - 1.5rem);
+    background-color: var(--background-color);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.service-card i {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.image-grid img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.image-grid img:hover {
+    transform: scale(1.05);
+}
+
+.testimonial-slider {
+    position: relative;
+    overflow: hidden;
+    height: 300px;
+}
+
+.testimonial {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 60%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 1;
+    text-align: center;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: #F5FFFA;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.testimonial.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+.testimonial .client-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.testimonial .client-name {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+    color: #000000;
+    font-style: italic;
+}
+
+footer {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.contact {
+    padding: 4rem 0;
+    background-color: var(--light-yellow);
+    text-align: center;
+}
+
+.contact h2 {
+    margin-bottom: 1rem;
+}
+
+.contact-intro {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: var(--secondary-color);
+}
+
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.contact-info {
+    display: inline-flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 1.5rem;
+    width: 80%;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 50%;
+    padding: 0.6rem;
+    background-color: var(--background-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px #ffe9005c;
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.14, 1.04), box-shadow 0.3s ease;
+}
+
+.contact-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.contact-item i {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+}
+
+.contact-item p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.social-icon {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icon:hover {
+    color: var(--accent-color);
+    transform: scale(1.2);
+}
+
+.about {
+    padding: 4rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: justify;
+}
+
+.about p {
+    margin-top: 1rem;
+    line-height: 1.6;
+}
+
+/* Appointment Form Styles */
+#appointment-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+#appointment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#appointment-form input,
+#appointment-form select,
+#appointment-form button {
+    width: 55%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#appointment-form select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 98%;
+    background-position-y: 50%;
+}
+
+#appointment-form button[type="submit"] {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+#appointment-form button[type="submit"]:hover {
+    background-color: var(--accent-color);
+}
+
+.appointment-form-container h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.appointment-form-container h3 {
+    font-size: 11px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.appointment-form-container p {
+    font-size: 12px;
+    margin: 5px 0;
+    color: #666;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    .nav-links {
+        position: fixed;
+        right: 0px;
+        height: 100vh;
+        top: 8vh;
+        background-color: var(--primary-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50%;
+        transform: translateX(100%);
+        transition: transform 0.5s ease-in;
+        z-index: 1000;
+    }
+
+    .nav-links li {
+        opacity: 0;
+        margin: 15px 0;
+    }
+
+    .burger {
+        display: block;
+    }
+
+    .nav-active {
+        transform: translateX(0%);
+    }
+
+    .nav-links a {
+        font-size: 20px;
+    }   
+
+    .logo img {
+        height: 40px;
+    }
+
+    .brand-name {
+        font-size: 1.2rem;
+    }
+
+    .brand-motto {
+        font-size: 0.7rem;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+
+    .process-steps, .service-card-container {
+        flex-direction: column;
+    }
+
+    .step, .service-card {
+        flex-basis: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .image-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .testimonial {
+        width: 80%;
+    }
+
+    .contact-container {
+        width: 90%;
+    }
+
+    body {
+        font-size: 14px;
+    }
+
+    .about, .services, .portfolio, .testimonials, .contact {
+        padding: 2rem 0;
+    }
+
+    main {
+        padding: 4rem 1rem 1rem;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+
+    #appointment-form input,
+    #appointment-form select,
+    #appointment-form button {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .logo img {
+        height: 30px;
+    }
+
+    .brand-name {
+        font-size: 1rem;
+    }
+
+    .brand-motto {
+        font-size: 0.6rem;
+    }
+
+    .hero-content h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    .image-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonial {
+        width: 90%;
+    }
+
+    .contact-container {
+        width: 95%;
+    }
+}
+
+/* Ensure smooth scrolling for all devices */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Ensure buttons are easily tappable on mobile */
+.nav-button, .ayiwa-btn {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* Ensure images don't overflow on small screens */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+@keyframes navLinkFade {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+
+/* Emoji Animation */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+#emoji-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.floating-emoji {
+    position: absolute;
+    font-size: 24px;
+    opacity: 0.3;
+    user-select: none;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;  
+ 
+}
+
+.pricing-container {
+    max-width: 400px;
+    margin: 100px auto 0; /* Added top margin to account for fixed header */
+    padding: 10px;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    min-height: calc(100vh - 100px); /* Adjusted to account for header and footer */
+}
+
+.pricing-container h1 {
+    color: #000000;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+
+.pricing-container h2 {
+    color: #FFD700;
+    font-size: 1.3em;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.pricing-container ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 5px;
+}
+
+.pricing-container li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 5px;
+}
+
+.pricing-container li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #000000; /* Red color for the dot */
+    font-size: 1.2em; /* Adjust size as needed */
+}
+
+.pricing-note {
+    color: #01010a;
+    font-style: italic;
+}
+
+.price-range, .price-detail {
+    color: #000200;
+}
+
+footer .location-link {
+    color: var(--primary-color); /* This will make it gold */
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+footer .location-link:hover {
+    color: var(--accent-color); /* This will change the color on hover */
+}
+
+footer .location-link i {
+    color: var(--primary-color); /* This ensures the icon is also gold */
+}
+
+.collections-menu {
+    position: relative;
+}
+
+.collections-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #FFD700; /* Yellow background to match your theme */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1000;
+    min-width: 150px;
+    padding: 10px 0;
+}
+
+.collections-menu:hover .collections-dropdown {
+    display: block;
+}
+
+.collections-dropdown li {
+    display: block;
+}
+
+.collections-dropdown a {
+    display: block;
+    padding: 5px 15px;
+    color: #000; /* Black text */
+    text-decoration: none;
+}
+
+.collections-dropdown a:hover {
+    background-color: #FFF; /* White background on hover */
+}
+
+
+.collection-grid img {
+    width: 100%;
+    height: auto;
+}
+
+.collection-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: white;
+    border-radius: 5px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.collection-header {
+    background-size: cover;
+    background-position: center;
+    height: 120vh; /* Adjust this value as needed */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.collection-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* Slight overlay for better text visibility */
+}
+
+.collection-header h2 {
+    color: white;
+    font-size: 3.5em;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    text-transform: uppercase;
+}
+
+.collection-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Keep 4 columns */
+    gap: 15px; /* Slightly increase gap between images */
+    padding: 20px; /* Add more padding around the grid */
+    max-width: 1000px; /* Increase the maximum width of the grid */
+    margin: 0 auto; /* Center the grid if it's smaller than the popup */
+}
+
+.collection-grid img {
+    width: 150%;
+    height: 300px; /* Increase the fixed height for all images */
+    object-fit: cover; /* Ensure images cover the area without distortion */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.collection-grid img:hover {
+    transform: scale(1.05);
+}
+
+.enlarged-image-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
+
+.enlarged-image {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+.popup-content button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #FFD700;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.popup-content button:hover {
+    background-color: #FFC700;
+}

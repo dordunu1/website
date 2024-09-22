@@ -11,13 +11,13 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname));
 
 // Database setup
-const db = new sqlite3.Database('./appointments.db', (err) => {
-  if (err) {
-    console.error(err.message);
-  }
-  console.log('Connected to the appointments database.');
-});
-
+const response = await fetch('/.netlify/functions/bookAppointment', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData),
+  });
 
 
 // Create appointments table

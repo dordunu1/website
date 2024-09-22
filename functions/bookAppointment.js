@@ -18,7 +18,16 @@ exports.handler = async (event, context) => {
     
     const result = await client.query(fql`
       Collection("Appointments").create({
-        data: ${fql.toFaunaPrimitive(data)}
+        data: {
+          name: ${data.name},
+          email: ${data.email},
+          phone: ${data.phone},
+          address: ${data.address},
+          service: ${data.service},
+          budget: ${data.budget},
+          event_date: ${data.event_date},
+          event_location: ${data.event_location}
+        }
       })
     `);
     

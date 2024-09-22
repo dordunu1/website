@@ -56,10 +56,12 @@
         }
         const data = await response.json();
         console.log('Data received:', data);
-        if (Array.isArray(data)) {
-            displayAppointments(data);
-        } else if (data && typeof data === 'object') {
-            displayAppointments([data]); // Wrap single object in array
+        if (Array.isArray(data.data)) {
+            console.log('About to display appointments:', data.data.length);
+            displayAppointments(data.data);
+        } else if (data.data && typeof data.data === 'object') {
+            console.log('About to display single appointment');
+            displayAppointments([data.data]);
         } else {
             console.error('Unexpected data format:', data);
             displayAppointments([]);
@@ -73,7 +75,7 @@
 function displayAppointments(appointments) {
     const tbody = document.getElementById('appointmentsBody');
     tbody.innerHTML = '';
-    if (appointments.length === 0) {
+    if (!appointments || appointments.length === 0) {
         const row = tbody.insertRow();
         row.innerHTML = '<td colspan="8">No appointments found</td>';
         return;
@@ -91,6 +93,7 @@ function displayAppointments(appointments) {
             <td>${appointment.event_location || ''}</td>
         `;
     });
+    console.log('Appointments displayed:', appointments.length);
 }
     </script>
 </body>

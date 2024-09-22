@@ -2,7 +2,7 @@ const { Client, fql } = require('fauna');
 
 exports.handler = async (event, context) => {
   const client = new Client({
-    secret: process.env.FAUNA_SECRET, // Note: Changed from FAUNADB_SECRET
+    secret: process.env.FAUNA_SECRET,
   });
   
   if (event.httpMethod !== 'POST') {

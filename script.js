@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Book Appointment functionality
     initializeAppointmentForm();
-    fetchAppointments();
+   // fetchAppointments();
 });
 
 function initializeTestimonials() {
@@ -321,7 +321,7 @@ function initializeAppointmentForm() {
   }
   
 
-async function fetchAppointments() {
+//async function fetchAppointments() {
     try {
       const response = await fetch('/api/appointments');
       if (!response.ok) {
@@ -332,8 +332,8 @@ async function fetchAppointments() {
       // We're not displaying appointments, so we don't need to do anything else here
     } catch (error) {
       console.error('Error fetching appointments:', error);
-    }
-  }
+    //}
+  
   
 
 document.addEventListener('DOMContentLoaded', function() {

@@ -17,7 +17,7 @@ exports.handler = async (event, context) => {
     console.log('Parsed data:', data);
     
     const result = await client.query(fql`
-      Appointments.create({
+      Collection("Appointments").create({
         data: ${data}
       })
     `);

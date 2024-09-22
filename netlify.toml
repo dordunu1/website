@@ -1,2 +1,3 @@
 ﻿[build]
   functions = "functions"
+  publish = "."  # This tells Netlify to publish the root directory

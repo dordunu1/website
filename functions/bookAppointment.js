@@ -17,9 +17,8 @@ exports.handler = async (event, context) => {
     console.log('Parsed data:', data);
     
     const result = await client.query(fql`
-      let appointmentData = ${JSON.stringify(data)}
       Collection("Appointments").create({
-        data: JSON.parse(appointmentData)
+        data: ${fql.toFaunaPrimitive(data)}
       })
     `);
     

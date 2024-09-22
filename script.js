@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Book Appointment functionality
     initializeAppointmentForm();
-   // fetchAppointments();
+   
 });
 
 function initializeTestimonials() {
@@ -321,40 +321,16 @@ function initializeAppointmentForm() {
   }
   
 
-//async function fetchAppointments() {
-    try {
-      const response = await fetch('/api/appointments');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const appointments = await response.json();
-      console.log('Appointments fetched successfully');
-      // We're not displaying appointments, so we don't need to do anything else here
-    } catch (error) {
-      console.error('Error fetching appointments:', error);
-    //}
-  
-  
-
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
     const appointmentLink = document.querySelector('a[href="#book-appointment"]');
     const appointmentModal = document.getElementById('appointment-modal');
-    const closeButton = appointmentModal.querySelector('.close-button');
 
-    appointmentLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        appointmentModal.style.display = 'block';
-    });
-
-    closeButton.addEventListener('click', function() {
-        appointmentModal.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(e) {
-        if (e.target == appointmentModal) {
-            appointmentModal.style.display = 'none';
-        }
-    });
+    if (appointmentLink && appointmentModal) {
+        appointmentLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            appointmentModal.style.display = 'block';
+        });
+    }
 });
 
 document.addEventListener('DOMContentLoaded', function() {

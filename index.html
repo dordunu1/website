@@ -57,26 +57,18 @@
         </nav>
     </header>
 
-
     <main>
         <section id="home" class="hero">
-            <section id="home" class="hero">
-                <div class="slideshow-container">
-                    <div class="slide active" style="background-image: url('images/work1.jpg');"></div>
-                    <div class="slide" style="background-image: url('images/work2.jpg');"></div>
-                    <div class="slide" style="background-image: url('images/work7.jpg');"></div>
-                    <div class="slide" style="background-image: url('images/work8.jpg');"></div>
-                    <div class="slide" style="background-image: url('images/work9.jpg');"></div>
-                    <div class="slide" style="background-image: url('images/work10.jpg');"></div>
-                    <div class="slide" style="background-image: url('images/work11.jpg');"></div>
-                    <div class="slide" style="background-image: url('images/work12.jpg');"></div>
-                    <!-- Add more slides as needed -->
-                </div>
-                <div class="hero-content">
-                    <h1>Bespoke Fashion Tailored to You</h1>
-                    <p>Experience the luxury of custom-designed clothing that fits you perfectly.</p>
-                </div>
-            </section>
+            <div class="slideshow-container">
+                <div class="slide active" style="background-image: url('images/work1.jpg');"></div>
+                <div class="slide" style="background-image: url('images/work2.jpg');"></div>
+                <div class="slide" style="background-image: url('images/work7.jpg');"></div>
+                <div class="slide" style="background-image: url('images/work8.jpg');"></div>
+                <div class="slide" style="background-image: url('images/work9.jpg');"></div>
+                <div class="slide" style="background-image: url('images/work10.jpg');"></div>
+                <div class="slide" style="background-image: url('images/work11.jpg');"></div>
+                <div class="slide" style="background-image: url('images/work12.jpg');"></div>
+            </div>
             <div class="hero-content">
                 <h1>Bespoke Fashion Tailored to You</h1>
                 <p>Experience the luxury of custom-designed clothing that fits you perfectly.</p>
@@ -85,7 +77,7 @@
         
         <section id="about" class="about">
             <h2>About Us</h2>
-            <p> At AYIWA REIGNS CLOTHING, we believe that every woman deserves clothing that not only fits perfectly but also expresses her unique style. Our team of skilled designers and artisans work tirelessly to create bespoke garments that make you look and feel your best.</p>
+            <p>At AYIWA REIGNS CLOTHING, we believe that every woman deserves clothing that not only fits perfectly but also expresses her unique style. Our team of skilled designers and artisans work tirelessly to create bespoke garments that make you look and feel your best.</p>
         </section>
         
         <section id="process" class="process">
@@ -204,16 +196,51 @@
 
         <section id="collections">
             <div class="collection" id="nube">
-                <!-- Remove this content -->
+                <!-- Content for NUBÉ collection -->
             </div>
             <div class="collection" id="meiwa">
-                <!-- Remove this content -->
+                <!-- Content for MEIWA DRESS collection -->
             </div>
             <div class="collection" id="bubu">
-                <!-- Remove this content -->
+                <!-- Content for BUBU collection -->
             </div>
         </section>
 
+        <section id="appointment-modal" style="display: none;">
+            <div class="modal-content">
+                <button class="close">&times;</button>
+                <h2>Book an Appointment</h2>
+                </p>We are looking forward to your appointment and working with you to create your dream outfit.</p>
+                <form id="appointment-form">
+                    <input type="text" id="name" placeholder="NAME (Full name)" required>
+                    <input type="email" id="email" placeholder="EMAIL" required>
+                    <input type="tel" id="phone" placeholder="PHONE" required>
+                    <input type="text" id="address" placeholder="ADDRESS (Street, City, Country)">
+                    <select id="service" required>
+                        <option value="">Select a service</option>
+                        <option value="Wedding Gowns">Wedding Gowns</option>
+                        <option value="Reception/Evening Gowns">Reception/Evening Gowns</option>
+                        <option value="Bridesmaid Gowns">Bridesmaid Gowns</option>
+                        <option value="Veils">Veils</option>
+                        <option value="Kente">Kente</option>
+                        <option value="Bridal Robes">Bridal Robes</option>
+                    </select>
+                    <h3>ENTER BUDGET PER SELECTED PRODUCT HERE (Please refer to the price guide BELOW)</h3>
+                    <ul>
+                        <li>All monies paid are not refundable.</li>
+                        <li>We require 500 cedis commitment for appointment booking. This amount is deducted from the final charge once we settle on your final design.</li>
+                        <li>We require a 70% deposit before we commence work.</li>
+                        <li>All digital sketches take at least a month. (cost per digital sketch is 450 cedis)</li>
+                    </ul>
+                    <input type="text" id="budget" placeholder="Product - GHC Budget" required>
+                    <p>Event Date 📆</p>
+                    <input type="date" id="event-date" required>
+                    <p>Event Location 📍</p>
+                    <input type="text" id="event-location" placeholder="CEREMONY/EVENT LOCATION" required>
+                    <button type="submit">Book Appointment</button>
+                </form>
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -222,40 +249,7 @@
             <i class="fas fa-map-marker-alt"></i> Find us here
         </a>
     </footer>
-
-    <div id="appointment-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Book an Appointment</h2>
-            <p>Kindly fill out the below with as much detail as you can to enable us provide the best service</p>
-            <form id="appointment-form">
-                <input type="text" placeholder="NAME* (Firstname Lastname)" required>
-                <input type="email" placeholder="EMAIL*" required>
-                <input type="tel" placeholder="PHONE*" required>
-                <input type="text" placeholder="ADDRESS (Street, City, Country)">
-                <select name="service" id="service-type" required>
-                    <option value="">Select a service</option>
-                    <option value="Wedding Gowns">Wedding Gowns</option>
-                    <option value="Reception/Evening Gowns">Reception/Evening Gowns</option>
-                    <option value="Bridesmaid Gowns">Bridesmaid Gowns</option>
-                    <option value="Veils">Veils</option>
-                    <option value="Kente">Kente</option>
-                    <option value="Bridal Robes">Bridal Robes</option>
-                </select>
-                <h3>ENTER BUDGET PER SELECTED PRODUCT HERE (Please refer to price guide BELOW)</h3>
-                <input type="text" placeholder="Product - GHC Budget" required>
-                <p>All monies paid are not refundable.</p>
-                <p>We require 500 cedis commitment for appointment booking. This amount is deducted from the final charge once we settle on your final design.</p>
-                <p>We require a 70% deposit before we commence work.</p>
-                <p>All digital sketches take at least a month. (cost per digital sketch is 450 cedis)</p>
-                <input type="date" placeholder="CEREMONY/EVENT DATE" required>
-                <input type="text" placeholder="CEREMONY/EVENT LOCATION" required>
-                <button type="submit">BOOK APPOINTMENT</button>
-            </form>
-        </div>
-        <div id="enlarged-image-container" class="enlarged-image-container"></div>
-    </div>
-
+    <div id="enlarged-image-container" class="enlarged-image-container"></div>
     <script src="script.js"></script>
 </body>
 </html>

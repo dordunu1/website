@@ -26,8 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Carousel
     initializeCarousel();
 
-    // Book Appointment clicks
-    initializeAppointmentLinks();
+    // Book Appointment functionality
+    initializeAppointmentForm();
+    fetchAppointments();
 });
 
 function initializeTestimonials() {
@@ -257,90 +258,117 @@ function initializeCarousel() {
     startAutoSlide();
 }
 
-function openAppointmentForm() {
-    // Check if the form is already open
-    if (document.querySelector('.appointment-form-container')) {
-        return; // Exit the function if the form is already open
-    }
-
-    const formContainer = document.createElement('div');
-    formContainer.className = 'appointment-form-container';
-    formContainer.style.position = 'fixed';
-    formContainer.style.top = '0';
-    formContainer.style.left = '0';
-    formContainer.style.width = '100%';
-    formContainer.style.height = '100%';
-    formContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-    formContainer.style.display = 'flex';
-    formContainer.style.justifyContent = 'center';
-    formContainer.style.alignItems = 'center';
-    formContainer.style.zIndex = '1000';
-
-    const formContent = `
-        <div class="modal-content" style="background-color: white; padding: 50px; border-radius: 5px; max-width: 350px; width: 90%; max-height: 800vh; overflow-y: auto;">
-            <span class="close" style="float: right; cursor: pointer;">&times;</span>
-            <h2>Book an Appointment</h2>
-            <p>Kindly fill out the below with as much detail as you can to enable us provide the best service</p>
-            <form id="appointment-form">
-                <input type="text" placeholder="NAME (Firstname Lastname)" required>
-                <input type="email" placeholder="EMAIL" required>
-                <input type="tel" placeholder="PHONE" required>
-                <input type="text" placeholder="ADDRESS (Street, City, Country)">
-                <select name="service" id="service-type" required>
-                    <option value="">Select a service </option>
-                    <option value="Wedding Gowns">Wedding Gowns</option>
-                    <option value="Reception/Evening Gowns">Reception/Evening Gowns</option>
-                    <option value="Bridesmaid Gowns">Bridesmaid Gowns</option>
-                    <option value="Veils">Veils</option>
-                    <option value="Kente">Kente</option>
-                    <option value="Bridal Robes">Bridal Robes</option>
-                </select>
-                <h3>ENTER BUDGET PER SELECTED PRODUCT HERE (Please refer to price guide BELOW)</h3>
-                <input type="text" placeholder="Product - GHC Budget" required>
-                <p>All monies paid are not refundable.</p>
-                <p>We require 500 cedis commitment for appointment booking. This amount is deducted from the final charge once we settle on your final design.</p>
-                <p>We require a 70% deposit before we commence work.</p>
-                <p>All digital sketches take at least a month. (cost per digital sketch is 500 cedis)</p>
-                <input type="date" placeholder="CEREMONY/EVENT DATE" required>
-                <input type="text" placeholder="CEREMONY/EVENT LOCATION" required>
-                <button type="submit">BOOK APPOINTMENT</button>
-            </form>
-        </div>
+function initializeAppointmentForm() {
+    const form = document.getElementById('appointment-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        service: document.getElementById('service').value,
+        budget: document.getElementById('budget').value,
+        event_date: document.getElementById('event-date').value,
+        event_location: document.getElementById('event-location').value
+      };
+  
+      try {
+        const response = await fetch('/api/appointments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+  
+        if (response.ok) {
+          showCustomModal('Thank you for booking an appointment with us! We look forward to seeing you and delivering your dream outfit.');
+          form.reset();
+          // Close the appointment modal if it exists
+          const appointmentModal = document.getElementById('appointment-modal');
+          if (appointmentModal) {
+            appointmentModal.style.display = 'none';
+          }
+        } else {
+          showCustomModal('Failed to book appointment. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showCustomModal('An error occurred. Please try again.');
+      }
+    });
+  }
+  
+  function showCustomModal(message) {
+    const modal = document.createElement('div');
+    modal.className = 'custom-modal';
+    modal.innerHTML = `
+      <div class="modal-content">
+        <p>${message}</p>
+        <button class="custom-modal-ok-button">OK</button>
+      </div>
     `;
+    document.body.appendChild(modal);
+  
+    // Use event delegation
+    modal.addEventListener('click', function(event) {
+      if (event.target.classList.contains('custom-modal-ok-button')) {
+        document.body.removeChild(modal);
+      }
+    });
+  }
+  
 
-    formContainer.innerHTML = formContent;
-    document.body.appendChild(formContainer);
+async function fetchAppointments() {
+    try {
+      const response = await fetch('/api/appointments');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const appointments = await response.json();
+      console.log('Appointments fetched successfully');
+      // We're not displaying appointments, so we don't need to do anything else here
+    } catch (error) {
+      console.error('Error fetching appointments:', error);
+    }
+  }
+  
 
-    // Prevent scrolling on the body when the modal is open
-    document.body.style.overflow = 'hidden';
+document.addEventListener('DOMContentLoaded', function() {
+    const appointmentLink = document.querySelector('a[href="#book-appointment"]');
+    const appointmentModal = document.getElementById('appointment-modal');
+    const closeButton = appointmentModal.querySelector('.close-button');
 
-    function closeForm() {
-        document.body.removeChild(formContainer);
-        // Re-enable scrolling on the body when the modal is closed
-        document.body.style.overflow = '';
+    appointmentLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        appointmentModal.style.display = 'block';
+    });
+
+    closeButton.addEventListener('click', function() {
+        appointmentModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(e) {
+        if (e.target == appointmentModal) {
+            appointmentModal.style.display = 'none';
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    var modal = document.getElementById('appointment-modal');
+    var closeBtn = modal.querySelector('.close');
+
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
     }
 
-    formContainer.addEventListener('click', function(e) {
-        if (e.target === formContainer) {
-            closeForm();
+    // Close the modal when clicking outside of it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
         }
-    });
-
-    formContainer.querySelector('.close').addEventListener('click', closeForm);
-
-    document.getElementById('appointment-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        console.log("Form submitted");
-        closeForm();
-    });
-}
-
-function initializeAppointmentLinks() {
-    document.body.addEventListener('click', function(e) {
-        const target = e.target.closest('a[href*="book-appointment"]');
-        if (target) {
-            e.preventDefault();
-            openAppointmentForm();
-        }
-    });
-}
+    }
+});

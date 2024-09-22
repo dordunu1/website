@@ -275,13 +275,13 @@ function initializeAppointmentForm() {
       };
   
       try {
-        const response = await fetch('/api/appointments', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
+        const response = await fetch('/.netlify/functions/bookAppointment', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          });
   
         if (response.ok) {
           showCustomModal('Thank you for booking an appointment with us! We look forward to seeing you and delivering your dream outfit.');

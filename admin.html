@@ -54,31 +54,44 @@
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const appointments = await response.json();
-        console.log('Appointments received:', appointments);
-        displayAppointments(appointments);
+        const data = await response.json();
+        console.log('Data received:', data);
+        if (Array.isArray(data)) {
+            displayAppointments(data);
+        } else if (data && typeof data === 'object') {
+            displayAppointments([data]); // Wrap single object in array
+        } else {
+            console.error('Unexpected data format:', data);
+            displayAppointments([]);
+        }
     } catch (error) {
         console.error('Error fetching appointments:', error);
+        displayAppointments([]);
     }
 }
 
-        function displayAppointments(appointments) {
-            const tbody = document.getElementById('appointmentsBody');
-            tbody.innerHTML = '';
-            appointments.forEach(appointment => {
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td>${appointment.name}</td>
-                    <td>${appointment.email}</td>
-                    <td>${appointment.phone}</td>
-                    <td>${appointment.address}</td>
-                    <td>${appointment.service}</td>
-                    <td>${appointment.budget}</td>
-                    <td>${appointment.event_date}</td>
-                    <td>${appointment.event_location}</td>
-                `;
-            });
-        }
+function displayAppointments(appointments) {
+    const tbody = document.getElementById('appointmentsBody');
+    tbody.innerHTML = '';
+    if (appointments.length === 0) {
+        const row = tbody.insertRow();
+        row.innerHTML = '<td colspan="8">No appointments found</td>';
+        return;
+    }
+    appointments.forEach(appointment => {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+            <td>${appointment.name || ''}</td>
+            <td>${appointment.email || ''}</td>
+            <td>${appointment.phone || ''}</td>
+            <td>${appointment.address || ''}</td>
+            <td>${appointment.service || ''}</td>
+            <td>${appointment.budget || ''}</td>
+            <td>${appointment.event_date || ''}</td>
+            <td>${appointment.event_location || ''}</td>
+        `;
+    });
+}
     </script>
 </body>
 </html>

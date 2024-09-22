@@ -22,6 +22,8 @@ exports.handler = async (event, context) => {
       })
     `);
 
+    console.log('Fetched appointments:', result.data);
+
     return {
       statusCode: 200,
       body: JSON.stringify(result.data)

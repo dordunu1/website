@@ -1,4 +1,5 @@
 const { Client, fql } = require('fauna');
+const Mailjet = require('node-mailjet');
 
 exports.handler = async (event, context) => {
   console.log('Function invoked with body:', event.body);
@@ -7,6 +8,11 @@ exports.handler = async (event, context) => {
     secret: process.env.FAUNA_SECRET,
   });
   
+  const mailjet = new Mailjet({
+    apiKey: process.env.MAILJET_API_KEY,
+    apiSecret: process.env.MAILJET_API_SECRET
+  });
+
   if (event.httpMethod !== 'POST') {
     console.log('Method not allowed:', event.httpMethod);
     return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
@@ -29,6 +35,38 @@ exports.handler = async (event, context) => {
       })
     `);
     
+    // Send email notification
+    const emailData = {
+      Messages: [
+        {
+          From: {
+            Email: "ayiwareignsclothing@gmail.com",
+            Name: "ARClothing"
+          },
+          To: [
+            {
+              Email: "ayiwareignsclothing@gmail.com",
+              Name: "ARClothing"
+            }
+          ],
+          Subject: "New Appointment Booked",
+          TextPart: `
+            New appointment booked:
+            Name: ${data.name}
+            Email: ${data.email}
+            Phone: ${data.phone}
+            Address: ${data.address}
+            Service: ${data.service}
+            Budget: ${data.budget}
+            Event Date: ${data.event_date}
+            Event Location: ${data.event_location}
+          `
+        }
+      ]
+    };
+
+    await mailjet.post("send", { version: "v3.1" }).request(emailData);
+
     console.log('Successfully created appointment:', result);
     return {
       statusCode: 200,

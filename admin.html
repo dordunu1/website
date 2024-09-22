@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments Admin Panel</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <h1>Appointments Admin Panel</h1>
+    <table id="appointmentsTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Service</th>
+                <th>Budget</th>
+                <th>Event Date</th>
+                <th>Event Location</th>
+            </tr>
+        </thead>
+        <tbody id="appointmentsBody">
+            <!-- Appointments will be inserted here -->
+        </tbody>
+    </table>
+
+    <!-- Netlify Identity Widget -->
+    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <script>
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.open();
+                } else {
+                    fetchAppointments();
+                }
+            });
+        } else {
+            console.error("Netlify Identity not loaded");
+        }
+
+        async function fetchAppointments() {
+            try {
+                const response = await fetch('/.netlify/functions/getAppointments');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const appointments = await response.json();
+                displayAppointments(appointments);
+            } catch (error) {
+                console.error('Error fetching appointments:', error);
+            }
+        }
+
+        function displayAppointments(appointments) {
+            const tbody = document.getElementById('appointmentsBody');
+            tbody.innerHTML = '';
+            appointments.forEach(appointment => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${appointment.name}</td>
+                    <td>${appointment.email}</td>
+                    <td>${appointment.phone}</td>
+                    <td>${appointment.address}</td>
+                    <td>${appointment.service}</td>
+                    <td>${appointment.budget}</td>
+                    <td>${appointment.event_date}</td>
+                    <td>${appointment.event_location}</td>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>

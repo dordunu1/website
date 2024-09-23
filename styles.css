@@ -887,7 +887,16 @@ footer .location-link i {
     background-color: #FFF; /* White background on hover */
 }
 
+/* Ensure the dropdown menu appears on hover */
+.more-menu:hover .dropdown-menu {
+    display: block;
+}
 
+/* Add the hover state for dropdown menu items */
+.dropdown-menu li a:hover {
+    background-color: white;
+    
+}
 .collection-grid img {
     width: 100%;
     height: auto;
@@ -1193,4 +1202,11 @@ footer .location-link i {
     height: 100%;
     pointer-events: none;
     z-index: 999;
+}
+
+/* Customize the focus outline */
+.nav-links a:focus,
+.burger:focus {
+    outline: 2px solid var(--primary-color); /* Customize the color and style */
+    outline-offset: 2px; /* Add some space between the outline and the element */
 }

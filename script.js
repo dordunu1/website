@@ -284,7 +284,7 @@ function initializeAppointmentForm() {
           });
   
         if (response.ok) {
-          showCustomModal('Thank you for booking an appointment with us! We look forward to seeing you and delivering your dream outfit.');
+          showConfirmationCard();
           form.reset();
           // Close the appointment modal if it exists
           const appointmentModal = document.getElementById('appointment-modal');
@@ -319,9 +319,25 @@ function initializeAppointmentForm() {
       }
     });
   }
-  
 
-  document.addEventListener('DOMContentLoaded', function() {
+function showConfirmationCard() {
+    document.getElementById('appointment-modal').style.display = 'none';
+    document.getElementById('confirmation-card').style.display = 'block';
+    
+    // Trigger confetti animation
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+    });
+
+    // Hide the confirmation card after 5 seconds
+    setTimeout(() => {
+        document.getElementById('confirmation-card').style.display = 'none';
+    }, 5000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
     const appointmentLink = document.querySelector('a[href="#book-appointment"]');
     const appointmentModal = document.getElementById('appointment-modal');
 

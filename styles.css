@@ -909,8 +909,8 @@ footer .location-link i {
 .popup-content {
     background-color: white;
     border-radius: 5px;
-    width: 90%;
-    max-height: 90vh;
+    width: 150%;
+    max-height: 105vh;
     overflow-y: auto;
     display: flex;
     flex-direction: column;

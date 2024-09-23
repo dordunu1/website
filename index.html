@@ -21,7 +21,7 @@
     <header>
         <nav>
             <div class="logo">
-                <img src="logo.png" alt="AYIWA REIGNS CLOTHING Logo">
+                <img src="logo.png" alt="AYIWA REIGNS CLOTHING Logo" loading="lazy">
                 <div class="brand-text">
                     <span class="brand-name">AYIWA REIGNS CLOTHING</span>
                     <span class="brand-motto">Love clothes, love style</span>
@@ -60,14 +60,14 @@
     <main>
         <section id="home" class="hero">
             <div class="slideshow-container">
-                <div class="slide active" style="background-image: url('images/work1.jpg');"></div>
-                <div class="slide" style="background-image: url('images/work2.jpg');"></div>
-                <div class="slide" style="background-image: url('images/work7.jpg');"></div>
-                <div class="slide" style="background-image: url('images/work8.jpg');"></div>
-                <div class="slide" style="background-image: url('images/work9.jpg');"></div>
-                <div class="slide" style="background-image: url('images/work10.jpg');"></div>
-                <div class="slide" style="background-image: url('images/work11.jpg');"></div>
-                <div class="slide" style="background-image: url('images/work12.jpg');"></div>
+                <div class="slide active" data-src="images/work1.jpg"></div>
+                <div class="slide" data-src="images/work2.jpg"></div>
+                <div class="slide" data-src="images/work7.jpg"></div>
+                <div class="slide" data-src="images/work8.jpg"></div>
+                <div class="slide" data-src="images/work9.jpg"></div>
+                <div class="slide" data-src="images/work10.jpg"></div>
+                <div class="slide" data-src="images/work11.jpg"></div>
+                <div class="slide" data-src="images/work12.jpg"></div>>
             </div>
             <div class="hero-content">
                 <h1>Bespoke Fashion Tailored to You</h1>
@@ -126,18 +126,18 @@
         <section id="portfolio" class="portfolio">
             <h2>Our Work</h2>
             <div class="image-grid">
-                <img src="images/work1.jpg" alt="Fashion piece 1" onclick="expandImage(this)">
-                <img src="images/work2.jpg" alt="Fashion piece 2" onclick="expandImage(this)">
-                <img src="images/work3.jpg" alt="Fashion piece 3" onclick="expandImage(this)">
-                <img src="images/work4.jpg" alt="Fashion piece 4" onclick="expandImage(this)">
-                <img src="images/work5.jpg" alt="Fashion piece 5" onclick="expandImage(this)">
-                <img src="images/work6.jpg" alt="Fashion piece 6" onclick="expandImage(this)">
-                <img src="images/work7.jpg" alt="Fashion piece 7" onclick="expandImage(this)">
-                <img src="images/work8.jpg" alt="Fashion piece 8" onclick="expandImage(this)">
-                <img src="images/work9.jpg" alt="Fashion piece 9" onclick="expandImage(this)">
-                <img src="images/work10.jpg" alt="Fashion piece 10" onclick="expandImage(this)">
-                <img src="images/work11.jpg" alt="Fashion piece 11" onclick="expandImage(this)">
-                <img src="images/work12.jpg" alt="Fashion piece 12" onclick="expandImage(this)">
+                <img src="images/work1.jpg" alt="Fashion piece 1" onclick="expandImage(this)" loading="lazy">
+                <img src="images/work2.jpg" alt="Fashion piece 2" onclick="expandImage(this)" loading="lazy">
+                <img src="images/work3.jpg" alt="Fashion piece 3" onclick="expandImage(this)" loading="lazy">
+                <img src="images/work4.jpg" alt="Fashion piece 4" onclick="expandImage(this)" loading="lazy">
+                <img src="images/work5.jpg" alt="Fashion piece 5" onclick="expandImage(this)" loading="lazy">
+                <img src="images/work6.jpg" alt="Fashion piece 6" onclick="expandImage(this)" loading="lazy">
+                <img src="images/work7.jpg" alt="Fashion piece 7" onclick="expandImage(this)" loading="lazy">
+                <img src="images/work8.jpg" alt="Fashion piece 8" onclick="expandImage(this)" loading="lazy">
+                <img src="images/work9.jpg" alt="Fashion piece 9" onclick="expandImage(this)" loading="lazy">
+                <img src="images/work10.jpg" alt="Fashion piece 10" onclick="expandImage(this)" loading="lazy">
+                <img src="images/work11.jpg" alt="Fashion piece 11" onclick="expandImage(this)" loading="lazy">
+                <img src="images/work12.jpg" alt="Fashion piece 12" onclick="expandImage(this)" loading="lazy">
             </div>
         </section>
 
@@ -160,7 +160,7 @@
                     <span class="client-name">- Samuella</span>
                 </div>
                 <div class="testimonial">
-                    <img src="logo.png" alt="Client" class="client-image">
+                    <img src="logo.png" alt="Client" class="client-image" loading="lazy">
                     <p>"Their designs are always on point. I feel confident and stylish in everything they create for me."</p>
                     <span class="client-name">- Pascal</span>
                 </div>
@@ -254,14 +254,16 @@
     <script src="script.js"></script>
     <div id="confirmation-card" class="confirmation-card" style="display: none;">
         <div class="card-content">
+            <img src="logo.png" alt="AYIWA REIGNS CLOTHING Logo" class="card-logo" loading="lazy">
             <h2>Appointment Booked!</h2>
             <p>Thank you for choosing AYIWA REIGNS CLOTHING. We're excited to create something beautiful for you!</p>
             <p>We will give you a call very soon to begin the process and discuss your dream outfit.</p>
             <p>Get ready for a journey of style and elegance!</p>
         </div>
-        <img src="logo.png" alt="AYIWA REIGNS CLOTHING Logo" class="card-logo">
+        <img src="logo.png" alt="AYIWA REIGNS CLOTHING Logo" class="card-logo" loading="lazy">
     </div>
     <div id="confetti-container"></div>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

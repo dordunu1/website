@@ -364,3 +364,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+function lazyLoadBackgroundImages() {
+    const slides = document.querySelectorAll('.slide');
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const slide = entry.target;
+                const src = slide.getAttribute('data-src');
+                if (src) {
+                    slide.style.backgroundImage = `url(${src})`;
+                    slide.removeAttribute('data-src');
+                    observer.unobserve(slide);
+                }
+            }
+        });
+    }, {rootMargin: "0px 0px 200px 0px"});
+
+    slides.forEach(slide => observer.observe(slide));
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', lazyLoadBackgroundImages);

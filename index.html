@@ -67,7 +67,7 @@
                 <div class="slide" data-src="images/work9.jpg"></div>
                 <div class="slide" data-src="images/work10.jpg"></div>
                 <div class="slide" data-src="images/work11.jpg"></div>
-                <div class="slide" data-src="images/work12.jpg"></div>>
+                <div class="slide" data-src="images/work12.jpg"></div>
             </div>
             <div class="hero-content">
                 <h1>Bespoke Fashion Tailored to You</h1>
@@ -210,36 +210,40 @@
             <div class="modal-content">
                 <button class="close">&times;</button>
                 <h2>Book an Appointment</h2>
-                </p>We are looking forward to your appointment and working with you to create your dream outfit.</p>
+                <p>We are looking forward to your appointment and working with you to create your dream outfit.</p>
                 <div class="glass-container">
-                <form id="appointment-form">
-                    <input type="text" id="name" placeholder="NAME (Full name)" required>
-                    <input type="email" id="email" placeholder="EMAIL" required>
-                    <input type="tel" id="phone" placeholder="PHONE" required>
-                    <input type="text" id="address" placeholder="ADDRESS (Street, City, Country)">
-                    <select id="service" required>
-                        <option value="">Select a service</option>
-                        <option value="Wedding Gowns">Wedding Gowns</option>
-                        <option value="Reception/Evening Gowns">Reception/Evening Gowns</option>
-                        <option value="Bridesmaid Gowns">Bridesmaid Gowns</option>
-                        <option value="Veils">Veils</option>
-                        <option value="Kente">Kente</option>
-                        <option value="Bridal Robes">Bridal Robes</option>
-                    </select>
-                    <h3>ENTER BUDGET PER SELECTED PRODUCT HERE (Please refer to the price guide BELOW)</h3>
-                    <ul>
-                        <li>All monies paid are not refundable.</li>
-                        <li>We require 500 cedis commitment for appointment booking. This amount is deducted from the final charge once we settle on your final design.</li>
-                        <li>We require a 70% deposit before we commence work.</li>
-                        <li>All digital sketches take at least a month. (cost per digital sketch is 450 cedis)</li>
-                    </ul>
-                    <input type="text" id="budget" placeholder="Product - GHC Budget" required>
-                    <p>Event Date 📆</p>
-                    <input type="date" id="event-date" required>
-                    <p>Event Location 📍</p>
-                    <input type="text" id="event-location" placeholder="CEREMONY/EVENT LOCATION" required>
-                    <button type="submit">Book Appointment</button>
-                </form>
+                    <form id="appointment-form">
+                        <input type="text" id="name" placeholder="NAME (Full name)" required>
+                        <input type="email" id="email" placeholder="EMAIL">
+                        <input type="tel" id="phone" placeholder="PHONE" required>
+                        <input type="text" id="address" placeholder="ADDRESS (Street, City, Country)">
+                        <select id="service" required>
+                            <option value="">Select a service</option>
+                            <option value="Wedding Gowns">Wedding Gowns</option>
+                            <option value="Reception/Evening Gowns">Reception/Evening Gowns</option>
+                            <option value="Bridesmaid Gowns">Bridesmaid Gowns</option>
+                            <option value="Veils">Veils</option>
+                            <option value="Kente">Kente</option>
+                            <option value="Bridal Robes">Bridal Robes</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <label for="other-service" id="other-service-label" style="display: none;">Please specify:</label>
+                        <input type="text" id="other-service" name="other_service" style="display: none;">
+                        <h3>ENTER BUDGET PER SELECTED PRODUCT HERE (Please refer to the price guide BELOW)</h3>
+                        <ul>
+                            <li>All monies paid are not refundable.</li>
+                            <li>We require 500 cedis commitment for appointment booking. This amount is deducted from the final charge once we settle on your final design.</li>
+                            <li>We require a 70% deposit before we commence work.</li>
+                            <li>All digital sketches take at least a month. (cost per digital sketch is 450 cedis)</li>
+                        </ul>
+                        <input type="text" id="budget" placeholder="Product - GHC Budget" required>
+                        <p>Event Date 📆</p>
+                        <input type="date" id="event-date" required>
+                        <p>Event Location 📍</p>
+                        <input type="text" id="event-location" placeholder="CEREMONY/EVENT LOCATION" required>
+                        <button type="submit">Book Appointment</button>
+                    </form>
+                </div>
             </div>
         </section>
     </main>
@@ -266,4 +270,4 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script src="script.js"></script>
 </body>
-</html
+</html>

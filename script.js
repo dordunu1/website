@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Book Appointment functionality
     initializeAppointmentForm();
-   
 });
 
 function initializeTestimonials() {
@@ -260,65 +259,83 @@ function initializeCarousel() {
 
 function initializeAppointmentForm() {
     const form = document.getElementById('appointment-form');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        address: document.getElementById('address').value,
-        service: document.getElementById('service').value,
-        budget: document.getElementById('budget').value,
-        event_date: document.getElementById('event-date').value,
-        event_location: document.getElementById('event-location').value
-      };
-  
-      try {
-        const response = await fetch('/.netlify/functions/bookAppointment', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-          });
-  
-        if (response.ok) {
-          showConfirmationCard();
-          form.reset();
-          // Close the appointment modal if it exists
-          const appointmentModal = document.getElementById('appointment-modal');
-          if (appointmentModal) {
-            appointmentModal.style.display = 'none';
-          }
+    const serviceSelect = document.getElementById('service');
+    const otherServiceLabel = document.getElementById('other-service-label');
+    const otherServiceInput = document.getElementById('other-service');
+
+    serviceSelect.addEventListener('change', () => {
+        if (serviceSelect.value === 'Other') {
+            otherServiceLabel.style.display = 'block';
+            otherServiceInput.style.display = 'block';
+            otherServiceInput.required = true;
         } else {
-          showCustomModal('Failed to book appointment. Please try again.');
+            otherServiceLabel.style.display = 'none';
+            otherServiceInput.style.display = 'none';
+            otherServiceInput.required = false;
         }
-      } catch (error) {
-        console.error('Error:', error);
-        showCustomModal('An error occurred. Please try again.');
-      }
     });
-  }
-  
-  function showCustomModal(message) {
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value || null,
+            phone: document.getElementById('phone').value,
+            address: document.getElementById('address').value,
+            service: serviceSelect.value === 'Other' ? otherServiceInput.value : serviceSelect.value,
+            budget: document.getElementById('budget').value,
+            event_date: document.getElementById('event-date').value,
+            event_location: document.getElementById('event-location').value
+        };
+
+        try {
+            const response = await fetch('/.netlify/functions/bookAppointment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                showConfirmationCard();
+                form.reset();
+                otherServiceLabel.style.display = 'none';
+                otherServiceInput.style.display = 'none';
+                // Close the appointment modal if it exists
+                const appointmentModal = document.getElementById('appointment-modal');
+                if (appointmentModal) {
+                    appointmentModal.style.display = 'none';
+                }
+            } else {
+                showCustomModal('Failed to book appointment. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showCustomModal('An error occurred. Please try again.');
+        }
+    });
+}
+
+function showCustomModal(message) {
     const modal = document.createElement('div');
     modal.className = 'custom-modal';
     modal.innerHTML = `
-      <div class="modal-content">
-        <p>${message}</p>
-        <button class="custom-modal-ok-button">OK</button>
-      </div>
+        <div class="modal-content">
+            <p>${message}</p>
+            <button class="custom-modal-ok-button">OK</button>
+        </div>
     `;
     document.body.appendChild(modal);
-  
+
     // Use event delegation
     modal.addEventListener('click', function(event) {
-      if (event.target.classList.contains('custom-modal-ok-button')) {
-        document.body.removeChild(modal);
-      }
+        if (event.target.classList.contains('custom-modal-ok-button')) {
+            document.body.removeChild(modal);
+        }
     });
-  }
+}
 
 function showConfirmationCard() {
     document.getElementById('appointment-modal').style.display = 'none';

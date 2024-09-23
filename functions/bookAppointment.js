@@ -73,13 +73,49 @@ exports.handler = async (event, context) => {
             TextPart: `Dear ${data.name}, your appointment for ${data.service} on ${data.event_date} has been booked.`,
             HTMLPart: `<h3>Dear ${data.name},</h3><p>Your appointment for ${data.service} on ${data.event_date} has been booked.</p>`,
           },
+          {
+            From: {
+              Email: 'ayiwareignsclothing@gmail.com',
+              Name: 'ARCLOTHING',
+            },
+            To: [
+              {
+                Email: 'ayiwareignsclothing@gmail.com', // Replace with your admin email
+                Name: 'Admin',
+              },
+            ],
+            Subject: 'New Appointment Booked',
+            TextPart: `A new appointment has been booked by ${data.name} for ${data.service} on ${data.event_date}.
+            Details:
+            Name: ${data.name}
+            Email: ${data.email}
+            Phone: ${data.phone}
+            Address: ${data.address}
+            Service: ${data.service}
+            Budget: ${data.budget}
+            Event Date: ${data.event_date}
+            Event Location: ${data.event_location}`,
+            HTMLPart: `<h3>New Appointment Booked</h3>
+            <p>A new appointment has been booked by ${data.name} for ${data.service} on ${data.event_date}.</p>
+            <p><strong>Details:</strong></p>
+            <ul>
+              <li><strong>Name:</strong> ${data.name}</li>
+              <li><strong>Email:</strong> ${data.email}</li>
+              <li><strong>Phone:</strong> ${data.phone}</li>
+              <li><strong>Address:</strong> ${data.address}</li>
+              <li><strong>Service:</strong> ${data.service}</li>
+              <li><strong>Budget:</strong> ${data.budget}</li>
+              <li><strong>Event Date:</strong> ${data.event_date}</li>
+              <li><strong>Event Location:</strong> ${data.event_location}</li>
+            </ul>`,
+          },
         ],
       });
 
       await request;
-      console.log('Email sent successfully');
+      console.log('Emails sent successfully');
     } else {
-      console.log('Email would be sent in production environment');
+      console.log('Emails would be sent in production environment');
     }
 
     return {

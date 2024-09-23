@@ -5,84 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appointments Admin Panel</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-        table { width: 100%; border-collapse: collapse; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f33e3e; }
+        th { background-color: #e04141; cursor: pointer; }
+        th:hover { background-color: #e6e6e6; }
         tr:nth-child(even) { background-color: #f9f9f9; }
+        .pagination { display: flex; justify-content: center; margin-top: 20px; }
+        .pagination button { margin: 0 5px; padding: 5px 10px; }
+        .refresh-btn { margin-bottom: 10px; }
     </style>
 </head>
 <body>
     <h1>Appointments Admin Panel</h1>
+    <button class="refresh-btn" onclick="fetchAppointments(currentPage, currentSortField, currentSortOrder)">Refresh</button>
     <table id="appointmentsTable">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>Service</th>
-                <th>Budget</th>
-                <th>Event Date</th>
-                <th>Event Location</th>
+                <th onclick="sortAppointments('createdAt')">Created At</th>
+                <th onclick="sortAppointments('name')">Name</th>
+                <th onclick="sortAppointments('email')">Email</th>
+                <th onclick="sortAppointments('phone')">Phone</th>
+                <th onclick="sortAppointments('address')">Address</th>
+                <th onclick="sortAppointments('service')">Service</th>
+                <th onclick="sortAppointments('budget')">Budget</th>
+                <th onclick="sortAppointments('event_date')">Event Date</th>
+                <th onclick="sortAppointments('event_location')">Event Location</th>
             </tr>
         </thead>
         <tbody id="appointmentsBody">
             <!-- Appointments will be inserted here -->
         </tbody>
     </table>
+    <div class="pagination" id="pagination"></div>
 
     <!-- Netlify Identity Widget -->
     <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     
     <script>
+        let currentPage = 1;
+        let totalPages = 1;
+        let currentSortField = 'event_date';
+        let currentSortOrder = 'asc';
+
         if (window.netlifyIdentity) {
             window.netlifyIdentity.on("init", user => {
                 if (!user) {
                     window.netlifyIdentity.open();
                 } else {
-                    fetchAppointments();
+                    fetchAppointments(currentPage, currentSortField, currentSortOrder);
                 }
             });
         } else {
             console.error("Netlify Identity not loaded");
         }
 
-        async function fetchAppointments() {
-    try {
-        const response = await fetch('/.netlify/functions/getAppointments');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log('Data received:', data);
-        if (Array.isArray(data.data)) {
-            console.log('About to display appointments:', data.data.length);
+        async function fetchAppointments(page = 1, sortField = 'event_date', sortOrder = 'asc') {
+        try {
+            const response = await fetch(`/.netlify/functions/getAppointments?page=${page}&sortField=${sortField}&sortOrder=${sortOrder}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log('Data received:', data);
             displayAppointments(data.data);
-        } else if (data.data && typeof data.data === 'object') {
-            console.log('About to display single appointment');
-            displayAppointments([data.data]);
-        } else {
-            console.error('Unexpected data format:', data);
+            updatePagination(data.currentPage, Math.ceil(data.totalCount / data.pageSize));
+        } catch (error) {
+            console.error('Error fetching appointments:', error);
             displayAppointments([]);
         }
-    } catch (error) {
-        console.error('Error fetching appointments:', error);
-        displayAppointments([]);
     }
-}
 
-function displayAppointments(appointments) {
+    function displayAppointments(appointments) {
     const tbody = document.getElementById('appointmentsBody');
     tbody.innerHTML = '';
-    if (!appointments || appointments.length === 0) {
+    if (appointments.length === 0) {
         const row = tbody.insertRow();
-        row.innerHTML = '<td colspan="8">No appointments found</td>';
+        row.innerHTML = '<td colspan="9">No appointments found</td>';
         return;
     }
     appointments.forEach(appointment => {
         const row = tbody.insertRow();
         row.innerHTML = `
+            <td>${formatDate(appointment.createdAt)}</td>
             <td>${appointment.name || ''}</td>
             <td>${appointment.email || ''}</td>
             <td>${appointment.phone || ''}</td>
@@ -93,8 +98,46 @@ function displayAppointments(appointments) {
             <td>${appointment.event_location || ''}</td>
         `;
     });
-    console.log('Appointments displayed:', appointments.length);
 }
+
+        function updatePagination(currentPage, totalPages) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            
+            if (currentPage > 1) {
+                const prevButton = document.createElement('button');
+                prevButton.textContent = 'Previous';
+                prevButton.onclick = () => fetchAppointments(currentPage - 1, currentSortField, currentSortOrder);
+                pagination.appendChild(prevButton);
+            }
+            
+            const pageInfo = document.createElement('span');
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+            pagination.appendChild(pageInfo);
+            
+            if (currentPage < totalPages) {
+                const nextButton = document.createElement('button');
+                nextButton.textContent = 'Next';
+                nextButton.onclick = () => fetchAppointments(currentPage + 1, currentSortField, currentSortOrder);
+                pagination.appendChild(nextButton);
+            }
+        }
+
+        function sortAppointments(field) {
+            if (field === currentSortField) {
+                currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSortField = field;
+                currentSortOrder = 'asc';
+            }
+            fetchAppointments(1, currentSortField, currentSortOrder);
+        }
+
+        function formatDate(dateObj) {
+            if (!dateObj || !dateObj.isoString) return 'Invalid Date';
+            const date = new Date(dateObj.isoString);
+            return date.toLocaleString();
+        }
     </script>
 </body>
 </html>

@@ -71,7 +71,7 @@
             </div>
             <div class="hero-content">
                 <h1>Bespoke Fashion Tailored to You</h1>
-                <p>Experience the luxury of custom-designed clothing that fits you perfectly.</p>
+                <p>Experience the luxury of custom-designed clothing that fits perfectly.</p>
             </div>
         </section>
         
@@ -218,19 +218,20 @@
                         <input type="tel" name="phone" id="phone" placeholder="PHONE" required>
                         <input type="text" name="address" id="address" placeholder="ADDRESS (Street, City, Country)" required>
                         <fieldset>
-                          <legend>Services (Select all that apply):</legend>
-                          <div class="checkbox-group">
-                            <label><input type="checkbox" name="services" value="Wedding Gowns"> Wedding Gowns</label>
-                            <label><input type="checkbox" name="services" value="Reception/Evening Gowns"> Reception/Evening Gowns</label>
-                            <label><input type="checkbox" name="services" value="Bridesmaid Gowns"> Bridesmaid Gowns</label>
-                            <label><input type="checkbox" name="services" value="Veils"> Veils</label>
-                            <label><input type="checkbox" name="services" value="Kente"> Kente</label>
-                            <label><input type="checkbox" name="services" value="Bridal Robes"> Bridal Robes</label>
-                          </div>
-                          <div>
-                            <label><input type="checkbox" id="other-service-checkbox" value="Other"> Other</label>
+                            <legend>Services (Select all that apply):</legend>
+                            <div class="custom-select">
+                                <div class="select-selected">Services (Select all that apply)</div>
+                                <div class="select-items select-hide">
+                                    <div><label><input type="checkbox" name="services" value="Wedding Gowns"><span>Wedding Gowns</span></label></div>
+                                    <div><label><input type="checkbox" name="services" value="Reception/Evening Gowns"><span>Reception/Evening Gowns</span></label></div>
+                                    <div><label><input type="checkbox" name="services" value="Bridesmaid Gowns"><span>Bridesmaid Gowns</span></label></div>
+                                    <div><label><input type="checkbox" name="services" value="Veils"><span>Veils</span></label></div>
+                                    <div><label><input type="checkbox" name="services" value="Kente"><span>Kente</span></label></div>
+                                    <div><label><input type="checkbox" name="services" value="Bridal Robes"><span>Bridal Robes</span></label></div>
+                                    <div><label><input type="checkbox" name="services" value="Other"><span>Other</span></label></div>
+                                </div>
+                            </div>
                             <input type="text" id="other-service" name="other_service" style="display: none;" placeholder="Please specify">
-                          </div>
                         </fieldset>
                         <h3>ENTER BUDGET PER SELECTED PRODUCT HERE (Please refer to the price guide BELOW)</h3>
                         <ul>

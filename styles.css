@@ -443,6 +443,19 @@ footer {
     line-height: 1.6;
 }
 
+/* Checkbox styles */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 /* Appointment Form Styles */
 #appointment-modal {
     display: none;

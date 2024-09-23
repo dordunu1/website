@@ -19,7 +19,7 @@ exports.handler = async (event, context) => {
           email: appointment.email,
           phone: appointment.phone,
           address: appointment.address,
-          service: appointment.service,
+          services: appointment.services, // Updated to handle services array
           budget: appointment.budget,
           event_date: appointment.event_date,
           event_location: appointment.event_location,
@@ -36,8 +36,8 @@ exports.handler = async (event, context) => {
           if (${sortOrder} == "asc") appointments.order(a => a.phone) else appointments.order(a => a.phone, "desc")
         } else if (${sortField} == "address") {
           if (${sortOrder} == "asc") appointments.order(a => a.address) else appointments.order(a => a.address, "desc")
-        } else if (${sortField} == "service") {
-          if (${sortOrder} == "asc") appointments.order(a => a.service) else appointments.order(a => a.service, "desc")
+        } else if (${sortField} == "services") {
+          if (${sortOrder} == "asc") appointments.order(a => a.services) else appointments.order(a => a.services, "desc")
         } else if (${sortField} == "budget") {
           if (${sortOrder} == "asc") appointments.order(a => a.budget) else appointments.order(a => a.budget, "desc")
         } else if (${sortField} == "event_location") {

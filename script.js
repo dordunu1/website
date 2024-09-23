@@ -259,61 +259,52 @@ function initializeCarousel() {
 
 function initializeAppointmentForm() {
     const form = document.getElementById('appointment-form');
-    const serviceSelect = document.getElementById('service');
-    const otherServiceLabel = document.getElementById('other-service-label');
+    const otherServiceCheckbox = document.getElementById('other-service-checkbox');
     const otherServiceInput = document.getElementById('other-service');
 
-    serviceSelect.addEventListener('change', () => {
-        if (serviceSelect.value === 'Other') {
-            otherServiceLabel.style.display = 'block';
+    otherServiceCheckbox.addEventListener('change', () => {
+        if (otherServiceCheckbox.checked) {
             otherServiceInput.style.display = 'block';
-            otherServiceInput.required = true;
         } else {
-            otherServiceLabel.style.display = 'none';
             otherServiceInput.style.display = 'none';
-            otherServiceInput.required = false;
         }
     });
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value || null,
-            phone: document.getElementById('phone').value,
-            address: document.getElementById('address').value,
-            service: serviceSelect.value === 'Other' ? otherServiceInput.value : serviceSelect.value,
-            budget: document.getElementById('budget').value,
-            event_date: document.getElementById('event-date').value,
-            event_location: document.getElementById('event-location').value
+        const formData = new FormData(form);
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email') || null, // Email is optional
+            phone: formData.get('phone'),
+            address: formData.get('address'),
+            services: formData.getAll('services'),
+            other_service: formData.get('other_service') || null,
+            budget: formData.get('budget'),
+            event_date: formData.get('event_date'),
+            event_location: formData.get('event_location')
         };
 
         try {
             const response = await fetch('/.netlify/functions/bookAppointment', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(data)
             });
 
+            const result = await response.json();
             if (response.ok) {
                 showConfirmationCard();
-                form.reset();
-                otherServiceLabel.style.display = 'none';
-                otherServiceInput.style.display = 'none';
-                // Close the appointment modal if it exists
-                const appointmentModal = document.getElementById('appointment-modal');
-                if (appointmentModal) {
-                    appointmentModal.style.display = 'none';
-                }
             } else {
-                showCustomModal('Failed to book appointment. Please try again.');
+                console.error('Error booking appointment:', result.error);
+                alert('Failed to book appointment: ' + result.error);
             }
         } catch (error) {
-            console.error('Error:', error);
-            showCustomModal('An error occurred. Please try again.');
+            console.error('Error booking appointment:', error);
+            alert('Failed to book appointment: ' + error.message);
         }
     });
 }

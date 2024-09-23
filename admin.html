@@ -27,7 +27,7 @@
                 <th onclick="sortAppointments('email')">Email</th>
                 <th onclick="sortAppointments('phone')">Phone</th>
                 <th onclick="sortAppointments('address')">Address</th>
-                <th onclick="sortAppointments('service')">Service</th>
+                <th onclick="sortAppointments('services')">Services</th>
                 <th onclick="sortAppointments('budget')">Budget</th>
                 <th onclick="sortAppointments('event_date')">Event Date</th>
                 <th onclick="sortAppointments('event_location')">Event Location</th>
@@ -61,44 +61,44 @@
         }
 
         async function fetchAppointments(page = 1, sortField = 'event_date', sortOrder = 'asc') {
-        try {
-            const response = await fetch(`/.netlify/functions/getAppointments?page=${page}&sortField=${sortField}&sortOrder=${sortOrder}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            try {
+                const response = await fetch(`/.netlify/functions/getAppointments?page=${page}&sortField=${sortField}&sortOrder=${sortOrder}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log('Data received:', data);
+                displayAppointments(data.data);
+                updatePagination(data.currentPage, Math.ceil(data.totalCount / data.pageSize));
+            } catch (error) {
+                console.error('Error fetching appointments:', error);
+                displayAppointments([]);
             }
-            const data = await response.json();
-            console.log('Data received:', data);
-            displayAppointments(data.data);
-            updatePagination(data.currentPage, Math.ceil(data.totalCount / data.pageSize));
-        } catch (error) {
-            console.error('Error fetching appointments:', error);
-            displayAppointments([]);
         }
-    }
 
-    function displayAppointments(appointments) {
-    const tbody = document.getElementById('appointmentsBody');
-    tbody.innerHTML = '';
-    if (appointments.length === 0) {
-        const row = tbody.insertRow();
-        row.innerHTML = '<td colspan="9">No appointments found</td>';
-        return;
-    }
-    appointments.forEach(appointment => {
-        const row = tbody.insertRow();
-        row.innerHTML = `
-            <td>${formatDate(appointment.createdAt)}</td>
-            <td>${appointment.name || ''}</td>
-            <td>${appointment.email || ''}</td>
-            <td>${appointment.phone || ''}</td>
-            <td>${appointment.address || ''}</td>
-            <td>${appointment.service || ''}</td>
-            <td>${appointment.budget || ''}</td>
-            <td>${appointment.event_date || ''}</td>
-            <td>${appointment.event_location || ''}</td>
-        `;
-    });
-}
+        function displayAppointments(appointments) {
+            const tbody = document.getElementById('appointmentsBody');
+            tbody.innerHTML = '';
+            if (appointments.length === 0) {
+                const row = tbody.insertRow();
+                row.innerHTML = '<td colspan="9">No appointments found</td>';
+                return;
+            }
+            appointments.forEach(appointment => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${formatDate(appointment.createdAt)}</td>
+                    <td>${appointment.name || ''}</td>
+                    <td>${appointment.email || ''}</td>
+                    <td>${appointment.phone || ''}</td>
+                    <td>${appointment.address || ''}</td>
+                    <td>${appointment.services ? appointment.services.join(', ') : ''}</td>
+                    <td>${appointment.budget || ''}</td>
+                    <td>${appointment.event_date || ''}</td>
+                    <td>${appointment.event_location || ''}</td>
+                `;
+            });
+        }
 
         function updatePagination(currentPage, totalPages) {
             const pagination = document.getElementById('pagination');

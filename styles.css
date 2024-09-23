@@ -907,7 +907,7 @@ footer .location-link i {
 }
 
 .popup-content {
-    background-color: white;
+    background-color: #fffdf0;  /* Added missing semicolon */
     border-radius: 5px;
     width: 150%;
     max-height: 105vh;
@@ -959,7 +959,7 @@ footer .location-link i {
 
 .collection-grid img {
     width: 150%;
-    height: 300px; /* Increase the fixed height for all images */
+    height: 450px; /* Increase the fixed height for all images */
     object-fit: cover; /* Ensure images cover the area without distortion */
     border-radius: 5px;
     cursor: pointer;

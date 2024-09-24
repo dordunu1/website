@@ -1129,6 +1129,7 @@ Collections Menu */
 }
 
 /* Media Queries */
+/* Media Queries */
 @media screen and (max-width: 768px) {
     .nav-links {
         position: fixed;
@@ -1142,25 +1143,69 @@ Collections Menu */
         width: 50%;
         transform: translateX(100%);
         transition: transform 0.5s ease-in;
-        z-index: 1000;
+        z-index: 1001; /* Updated z-index */
+        justify-content: flex-start; /* New */
+        padding-top: 20px; /* New */
     }
 
     .nav-links li {
         opacity: 0;
         margin: 15px 0;
+        width: 100%; /* New */
+        text-align: center; /* New */
+    }
+
+    .nav-links a {
+        font-size: 18px; /* Updated */
+        padding: 10px 0; /* New */
+        display: block; /* New */
     }
 
     .burger {
         display: block;
+        z-index: 1002; /* New */
     }
 
+    /* Add these new styles for the collections dropdown */
+    .collections-dropdown {
+        position: static;
+        background-color: transparent;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .collections-dropdown li {
+        margin: 10px 0;
+    }
+
+    .collections-dropdown a {
+        color: var(--secondary-color);
+        padding: 5px 0;
+    }
+
+    /* Adjust the z-index of the collection popup */
+    .collection-popup {
+        z-index: 1001;
+    }
+
+    /* Adjust the collections menu for mobile */
+    .collections-menu {
+        position: static;
+    }
+
+    .collections-menu:hover .collections-dropdown {
+        display: none;
+    }
+
+    /* Show dropdown when parent li is tapped */
+    .collections-menu.active .collections-dropdown {
+        display: block;
+    }
+
+    /* Keep your existing styles below this line */
     .nav-active {
         transform: translateX(0%);
     }
-
-    .nav-links a {
-        font-size: 20px;
-    }   
 
     .logo img {
         height: 40px;

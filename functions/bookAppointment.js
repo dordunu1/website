@@ -71,6 +71,11 @@ exports.handler = async (event, context) => {
       }
     `);
 
+    let servicesText = data.services.join(', ');
+    if (data.services.includes('Other') && data.other_service) {
+      servicesText += ` (${data.other_service})`;
+    }
+
     if (Mailjet) {
       const mailjet = Mailjet.apiConnect(
         process.env.MAILJET_API_KEY,
@@ -90,8 +95,24 @@ exports.handler = async (event, context) => {
             },
           ],
           Subject: 'Appointment Confirmation',
-          TextPart: `Dear ${data.name}, your appointment for ${data.services.join(', ')} on ${data.event_date} has been booked.`,
-          HTMLPart: `<h3>Dear ${data.name},</h3><p>Your appointment for ${data.services.join(', ')} on ${data.event_date} has been booked.</p>`,
+          TextPart: `Dear ${data.name}, your appointment for ${servicesText} on ${data.event_date} has been booked.`,
+          HTMLPart: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #e04141; text-align: center;">Appointment Booked!</h2>
+          <p>Dear ${data.name},</p>
+          <p>Thank you for choosing AYIWA REIGNS CLOTHING. We're excited to create something beautiful for you!</p>
+           <p>We will give you a call very soon to begin the process and discuss your dream outfit.</p>
+           <p>Get ready for a journey of style and elegance!</p>
+            <h3>Appointment Details:</h3>
+          <ul>
+            <li><strong>Services:</strong> ${servicesText}</li>
+            <li><strong>Event Date:</strong> ${data.event_date}</li>
+            <li><strong>Event Location:</strong> ${data.event_location}</li>
+            <li><strong>Budget:</strong> ${data.budget}</li>
+          </ul>
+          <img src="https://imgur.com/wtbfRCu.png" alt="AYIWA REIGNS CLOTHING Logo" style="display: block; margin: 20px auto 0; max-width: 200px;">
+        </div>
+        `,
         },
         {
           From: {
@@ -105,25 +126,25 @@ exports.handler = async (event, context) => {
             },
           ],
           Subject: 'New Appointment Booked',
-          TextPart: `A new appointment has been booked by ${data.name} for ${data.services.join(', ')} on ${data.event_date}.
+          TextPart: `A new appointment has been booked by ${data.name} for ${servicesText} on ${data.event_date}.
           Details:
           Name: ${data.name}
           Email: ${data.email}
           Phone: ${data.phone}
           Address: ${data.address}
-          Services: ${data.services.join(', ')}
+          Services: ${servicesText}
           Budget: ${data.budget}
           Event Date: ${data.event_date}
           Event Location: ${data.event_location}`,
           HTMLPart: `<h3>New Appointment Booked</h3>
-          <p>A new appointment has been booked by ${data.name} for ${data.services.join(', ')} on ${data.event_date}.</p>
+          <p>A new appointment has been booked by ${data.name} for ${servicesText} on ${data.event_date}.</p>
           <p><strong>Details:</strong></p>
           <ul>
             <li><strong>Name:</strong> ${data.name}</li>
             <li><strong>Email:</strong> ${data.email}</li>
             <li><strong>Phone:</strong> ${data.phone}</li>
             <li><strong>Address:</strong> ${data.address}</li>
-            <li><strong>Services:</strong> ${data.services.join(', ')}</li>
+            <li><strong>Services:</strong> ${servicesText}</li>
             <li><strong>Budget:</strong> ${data.budget}</li>
             <li><strong>Event Date:</strong> ${data.event_date}</li>
             <li><strong>Event Location:</strong> ${data.event_location}</li>

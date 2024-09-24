@@ -19,7 +19,8 @@ exports.handler = async (event, context) => {
           email: appointment.email,
           phone: appointment.phone,
           address: appointment.address,
-          services: appointment.services, // Updated to handle services array
+          services: appointment.services,
+          other_service: appointment.other_service,
           budget: appointment.budget,
           event_date: appointment.event_date,
           event_location: appointment.event_location,
@@ -28,7 +29,13 @@ exports.handler = async (event, context) => {
       });
       
       let sortedAppointments = 
-        if (${sortField} == "name") {
+        if (${sortField} == "createdAt") {
+          if (${sortOrder} == "asc") appointments.order(a => a.createdAt) else appointments.order(a => a.createdAt, "desc")
+        } else if (${sortField} == "event_date") {
+          if (${sortOrder} == "asc") appointments.order(a => a.event_date) else appointments.order(a => a.event_date, "desc")
+        } else if (${sortField} == "services") {
+          if (${sortOrder} == "asc") appointments.order(a => a.services.join(", ")) else appointments.order(a => a.services.join(", "), "desc")
+        } else if (${sortField} == "name") {
           if (${sortOrder} == "asc") appointments.order(a => a.name) else appointments.order(a => a.name, "desc")
         } else if (${sortField} == "email") {
           if (${sortOrder} == "asc") appointments.order(a => a.email) else appointments.order(a => a.email, "desc")
@@ -36,20 +43,16 @@ exports.handler = async (event, context) => {
           if (${sortOrder} == "asc") appointments.order(a => a.phone) else appointments.order(a => a.phone, "desc")
         } else if (${sortField} == "address") {
           if (${sortOrder} == "asc") appointments.order(a => a.address) else appointments.order(a => a.address, "desc")
-        } else if (${sortField} == "services") {
-          if (${sortOrder} == "asc") appointments.order(a => a.services) else appointments.order(a => a.services, "desc")
         } else if (${sortField} == "budget") {
           if (${sortOrder} == "asc") appointments.order(a => a.budget) else appointments.order(a => a.budget, "desc")
         } else if (${sortField} == "event_location") {
           if (${sortOrder} == "asc") appointments.order(a => a.event_location) else appointments.order(a => a.event_location, "desc")
-        } else if (${sortField} == "createdAt") {
-          if (${sortOrder} == "asc") appointments.order(a => a.createdAt) else appointments.order(a => a.createdAt, "desc")
         } else {
-          if (${sortOrder} == "asc") appointments.order(a => a.event_date) else appointments.order(a => a.event_date, "desc")
+          appointments
         };
       
       let totalCount = sortedAppointments.count();
-      let paginatedAppointments = sortedAppointments.take(${pageSize * page});
+      let paginatedAppointments = sortedAppointments.drop(${(page - 1) * pageSize}).take(${pageSize});
       
       {
         data: paginatedAppointments,
@@ -61,13 +64,10 @@ exports.handler = async (event, context) => {
 
     console.log('Fauna query result:', JSON.stringify(result, null, 2));
 
-    // Extract the appointments data from the nested structure
-    const appointments = result.data.data.data;
-
     return {
       statusCode: 200,
       body: JSON.stringify({
-        data: appointments,
+        data: result.data.data,
         totalCount: result.data.totalCount,
         currentPage: page,
         pageSize: pageSize

@@ -48,57 +48,84 @@
         let currentSortField = 'event_date';
         let currentSortOrder = 'asc';
 
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
-                if (!user) {
-                    window.netlifyIdentity.open();
-                } else {
-                    fetchAppointments(currentPage, currentSortField, currentSortOrder);
-                }
-            });
-        } else {
-            console.error("Netlify Identity not loaded");
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, checking Netlify Identity...');
+            if (window.netlifyIdentity) {
+                window.netlifyIdentity.on("init", user => {
+                    console.log('Netlify Identity initialized', user);
+                    if (!user) {
+                        window.netlifyIdentity.open();
+                    } else {
+                        fetchAppointments(currentPage, currentSortField, currentSortOrder);
+                    }
+                });
+            } else {
+                console.error("Netlify Identity not loaded");
+            }
+        });
 
         async function fetchAppointments(page = 1, sortField = 'event_date', sortOrder = 'asc') {
-            try {
-                const response = await fetch(`/.netlify/functions/getAppointments?page=${page}&sortField=${sortField}&sortOrder=${sortOrder}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                console.log('Data received:', data);
-                displayAppointments(data.data);
-                updatePagination(data.currentPage, Math.ceil(data.totalCount / data.pageSize));
-            } catch (error) {
-                console.error('Error fetching appointments:', error);
-                displayAppointments([]);
-            }
+    console.log(`Fetching appointments: page=${page}, sortField=${sortField}, sortOrder=${sortOrder}`);
+    try {
+        const response = await fetch(`/.netlify/functions/getAppointments?page=${page}&sortField=${sortField}&sortOrder=${sortOrder}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const result = await response.json();
+        console.log('Appointments data:', result);
+        if (result.data && result.data.data && Array.isArray(result.data.data)) {
+            displayAppointments(result.data.data);
+            updatePagination(result.data.currentPage, Math.ceil(result.data.totalCount / result.data.pageSize));
+        } else {
+            console.error('Unexpected data structure:', result);
+            displayAppointments([]);
+        }
+    } catch (error) {
+        console.error('Error fetching appointments:', error);
+        displayAppointments([]);
+    }
+}
 
-        function displayAppointments(appointments) {
-            const tbody = document.getElementById('appointmentsBody');
-            tbody.innerHTML = '';
-            if (appointments.length === 0) {
-                const row = tbody.insertRow();
-                row.innerHTML = '<td colspan="9">No appointments found</td>';
-                return;
-            }
-            appointments.forEach(appointment => {
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td>${formatDate(appointment.createdAt)}</td>
-                    <td>${appointment.name || ''}</td>
-                    <td>${appointment.email || ''}</td>
-                    <td>${appointment.phone || ''}</td>
-                    <td>${appointment.address || ''}</td>
-                    <td>${appointment.services ? appointment.services.join(', ') : ''}</td>
-                    <td>${appointment.budget || ''}</td>
-                    <td>${appointment.event_date || ''}</td>
-                    <td>${appointment.event_location || ''}</td>
-                `;
-            });
-        }
+function displayAppointments(appointments) {
+    console.log('Displaying appointments:', appointments);
+    const tbody = document.getElementById('appointmentsBody');
+    tbody.innerHTML = '';
+    if (appointments.length === 0) {
+        const row = tbody.insertRow();
+        row.innerHTML = '<td colspan="9">No appointments found</td>';
+        return;
+    }
+    appointments.forEach(appointment => {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+            <td>${formatDate(appointment.createdAt)}</td>
+            <td>${appointment.name || ''}</td>
+            <td>${appointment.email || ''}</td>
+            <td>${appointment.phone || ''}</td>
+            <td>${appointment.address || ''}</td>
+            <td>${formatServices(appointment.services, appointment.other_service)}</td>
+            <td>${appointment.budget || ''}</td>
+            <td>${appointment.event_date || ''}</td>
+            <td>${appointment.event_location || ''}</td>
+        `;
+    });
+}
+
+function formatServices(services, otherService) {
+    if (!services) return '';
+    let formattedServices = Array.isArray(services) ? services.join(', ') : services;
+    if (formattedServices.includes('Other') && otherService) {
+        formattedServices += ` (${otherService})`;
+    }
+    return formattedServices;
+}
+
+function formatDate(dateObj) {
+    if (!dateObj) return 'Invalid Date';
+    if (typeof dateObj === 'string') return new Date(dateObj).toLocaleString();
+    if (dateObj.isoString) return new Date(dateObj.isoString).toLocaleString();
+    return 'Invalid Date';
+}
 
         function updatePagination(currentPage, totalPages) {
             const pagination = document.getElementById('pagination');
@@ -131,12 +158,6 @@
                 currentSortOrder = 'asc';
             }
             fetchAppointments(1, currentSortField, currentSortOrder);
-        }
-
-        function formatDate(dateObj) {
-            if (!dateObj || !dateObj.isoString) return 'Invalid Date';
-            const date = new Date(dateObj.isoString);
-            return date.toLocaleString();
         }
     </script>
 </body>

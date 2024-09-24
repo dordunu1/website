@@ -45,16 +45,17 @@ exports.handler = async (event, context) => {
     const result = await client.query(fql`
       let appointment = Collection("Appointments").create({
         name: ${data.name},
-        email: ${data.email || null}, // Email is optional
+        email: ${data.email || null},
         phone: ${data.phone},
         address: ${data.address},
         services: ${data.services},
+        other_service: ${data.other_service || null},
         budget: ${data.budget},
         event_date: ${data.event_date},
         event_location: ${data.event_location},
-        createdAt: Time.now() // Add this line to set the creation time
+        createdAt: Time.now()
       })
-
+    
       {
         id: appointment.id,
         name: appointment.name,
@@ -62,10 +63,11 @@ exports.handler = async (event, context) => {
         phone: appointment.phone,
         address: appointment.address,
         services: appointment.services,
+        other_service: appointment.other_service,
         budget: appointment.budget,
         event_date: appointment.event_date,
         event_location: appointment.event_location,
-        createdAt: appointment.createdAt // Add this line to include createdAt in the response
+        createdAt: appointment.createdAt
       }
     `);
 

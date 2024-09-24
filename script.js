@@ -417,5 +417,19 @@ function initializeHorizontalScroll() {
     });
 }
 
+function initializeMobileMenu() {
+    const collectionsMenu = document.querySelector('.collections-menu');
+    if (collectionsMenu) {
+        collectionsMenu.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                this.classList.toggle('active');
+            }
+        });
+    }
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', initializeMobileMenu);
 // Call this function when the page loads
 document.addEventListener('DOMContentLoaded', lazyLoadBackgroundImages);

@@ -218,33 +218,48 @@
                         <input type="tel" name="phone" id="phone" placeholder="PHONE" required>
                         <input type="text" name="address" id="address" placeholder="ADDRESS (Street, City, Country)" required>
                         <fieldset>
-                          <legend>Services (Select all that apply):</legend>
-                          <div class="checkbox-group">
-                            <label><input type="checkbox" name="services" value="Wedding Gowns"> Wedding Gowns</label>
-                            <label><input type="checkbox" name="services" value="Reception/Evening Gowns"> Reception/Evening Gowns</label>
-                            <label><input type="checkbox" name="services" value="Bridesmaid Gowns"> Bridesmaid Gowns</label>
-                            <label><input type="checkbox" name="services" value="Veils"> Veils</label>
-                            <label><input type="checkbox" name="services" value="Kente"> Kente</label>
-                            <label><input type="checkbox" name="services" value="Bridal Robes"> Bridal Robes</label>
-                          </div>
-                          <div>
-                            <label><input type="checkbox" id="other-service-checkbox" value="Other"> Other</label>
-                            <input type="text" id="other-service" name="other_service" style="display: none;" placeholder="Please specify">
-                          </div>
-                        </fieldset>
-                        <h3>ENTER BUDGET PER SELECTED PRODUCT HERE (Please refer to the price guide BELOW)</h3>
-                        <ul>
-                            <li>All monies paid are not refundable.</li>
-                            <li>We require 500 cedis commitment for appointment booking. This amount is deducted from the final charge once we settle on your final design.</li>
-                            <li>We require a 70% deposit before we commence work.</li>
-                            <li>All digital sketches take at least a month. (cost per digital sketch is 450 cedis)</li>
-                        </ul>
-                        <input type="text" name="budget" id="budget" placeholder="Product - GHC Budget" required>
-                        <p>Event Date 📆</p>
-                        <input type="date" name="event_date" id="event-date" required>
-                        <p>Event Location 📍</p>
-                        <input type="text" name="event_location" id="event-location" placeholder="CEREMONY/EVENT LOCATION" required>
-                        <button type="submit">Book Appointment</button>
+                            <fieldset>
+                                <legend>Services (Select all that apply):</legend>
+                                <div class="services-container">
+                                  <div class="service-item">
+                                    <label><input type="checkbox" name="services" value="Wedding Gowns"> Wedding Gowns</label>
+                                  </div>
+                                  <div class="service-item">
+                                    <label><input type="checkbox" name="services" value="Reception/Evening Gowns"> Reception/Evening Gowns</label>
+                                  </div>
+                                  <div class="service-item">
+                                    <label><input type="checkbox" name="services" value="Bridesmaid Gowns"> Bridesmaid Gowns</label>
+                                  </div>
+                                  <div class="service-item">
+                                    <label><input type="checkbox" name="services" value="Veils"> Veils</label>
+                                  </div>
+                                  <div class="service-item">
+                                    <label><input type="checkbox" name="services" value="Kente"> Kente</label>
+                                  </div>
+                                  <div class="service-item">
+                                    <label><input type="checkbox" name="services" value="Bridal Robes"> Bridal Robes</label>
+                                  </div>
+                                  <div class="service-item other-service">
+                                    <label>
+                                      <input type="checkbox" id="other-service-checkbox" name="services" value="Other">
+                                      Other
+                                    </label>
+                                    <input type="text" id="other-service" name="other_service" style="display: none;" placeholder="Please specify">
+                                  </div>
+                              </fieldset>
+                              <h3 id="budget-header">ENTER BUDGET PER SELECTED PRODUCT HERE (Please refer to the price guide BELOW)</h3>
+                              <ul id="budget-info">
+                                  <li>All monies paid are not refundable.</li>
+                                  <li>We require 500 cedis commitment for appointment booking. This amount is deducted from the final charge once we settle on your final design.</li>
+                                  <li>We require a 70% deposit before we commence work.</li>
+                                  <li>All digital sketches take at least a month. (cost per digital sketch is 450 cedis)</li>
+                              </ul>
+                              <input type="text" name="budget" id="budget" placeholder="Product - GHC Budget" required>
+                              <p id="event-date-label">Event Date 📆</p>
+                              <input type="date" name="event_date" id="event-date" required>
+                              <p id="event-location-label">Event Location 📍</p>
+                              <input type="text" name="event_location" id="event-location" placeholder="CEREMONY/EVENT LOCATION" required>
+                              <button type="submit" id="submit-button">Book Appointment</button>
                     </form>
                 </div>
             </div>

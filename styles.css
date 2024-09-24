@@ -443,19 +443,67 @@ footer {
     line-height: 1.6;
 }
 
-/* Checkbox styles */
-.checkbox-group {
+.services-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.checkbox-group label {
+    gap: 10px;
+  }
+  
+  .service-item {
+    flex-basis: calc(50% - 5px);
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-}
+  }
+  
+  .service-item label {
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .service-item input[type="checkbox"] {
+    margin: 0 8px 0 0 !important;
+    flex-shrink: 0;
+    width: auto !important;
+  }
+  
+  .service-item span {
+    display: inline-block;
+    word-break: break-word;
+    line-height: 1.2;
+    font-size: 14px;
+  }
+  
+  /* Adjust the 'Other' checkbox to span full width */
+  .service-item:last-child {
+    flex-basis: 100%;
+  }
 
+  .service-item.other-service {
+    flex-basis: 43%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .service-item.other-service label {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  
+  #other-service {
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
 /* Appointment Form Styles */
 #appointment-modal {
     display: none;
@@ -494,21 +542,40 @@ footer {
     color: black;
     text-decoration: none;
 }
-
 #appointment-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    max-width: 500px; /* Adjust this value based on your design */
+    margin: 0 auto;
+    gap: 10px; /* Keeping this from your original code */
 }
 
-#appointment-form input,
+#appointment-form input[type="text"],
+#appointment-form input[type="email"],
+#appointment-form input[type="tel"],
+#appointment-form input[type="date"],
 #appointment-form select,
 #appointment-form button {
-    width: 55%;
+    width: 150%;
+    max-width: 250px; /* Adjust this value based on your design */
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* Ensure the services container spans the full width */
+.services-container {
+    width: 100%;
+    max-width: 400px; /* Match this with the input fields */
+}
+
+/* Center the legend text */
+fieldset legend {
+    text-align: center;
+    width: 100%;
 }
 
 #appointment-form select {
@@ -551,6 +618,64 @@ footer {
     color: #666;
 }
 
+#budget-header,
+#budget-info,
+#budget,
+#event-date-label,
+#event-date,
+#event-location-label,
+#event-location,
+#submit-button {
+    width: 100%;
+    max-width: 400px;
+    margin: 15px auto;
+    display: block;
+}
+
+#budget-header {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#budget-info {
+    list-style-position: inside;
+    padding-left: 0;
+}
+
+#budget-info li {
+    margin-bottom: 10px;
+}
+
+#budget,
+#event-date,
+#event-location {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#event-date-label,
+#event-location-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#submit-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#submit-button:hover {
+    background-color: #45a049;
+}
 /* Mobile Responsiveness */
 @media screen and (max-width: 768px) {
     .nav-links {

@@ -139,6 +139,9 @@ function showCollectionPopup(collectionId) {
         </div>
     `;
     popup.style.display = 'flex';
+
+     // Initialize horizontal scrolling
+     initializeHorizontalScroll();
 }
 
 function closePopup() {
@@ -385,6 +388,33 @@ function lazyLoadBackgroundImages() {
     }, {rootMargin: "0px 0px 200px 0px"});
 
     slides.forEach(slide => observer.observe(slide));
+}
+
+function initializeHorizontalScroll() {
+    const collectionGrid = document.querySelector('.collection-grid');
+    if (!collectionGrid) return;
+
+    let isScrolling = false;
+    let startX;
+    let scrollLeft;
+
+    collectionGrid.addEventListener('touchstart', (e) => {
+        isScrolling = true;
+        startX = e.touches[0].pageX - collectionGrid.offsetLeft;
+        scrollLeft = collectionGrid.scrollLeft;
+    });
+
+    collectionGrid.addEventListener('touchend', () => {
+        isScrolling = false;
+    });
+
+    collectionGrid.addEventListener('touchmove', (e) => {
+        if (!isScrolling) return;
+        e.preventDefault();
+        const x = e.touches[0].pageX - collectionGrid.offsetLeft;
+        const walk = (x - startX) * 2;
+        collectionGrid.scrollLeft = scrollLeft - walk;
+    });
 }
 
 // Call this function when the page loads

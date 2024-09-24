@@ -19,6 +19,14 @@
 <body>
     <h1>Appointments Admin Panel</h1>
     <button class="refresh-btn" onclick="fetchAppointments(currentPage, currentSortField, currentSortOrder)">Refresh</button>
+    <div style="margin-bottom: 10px;">
+        <label for="sortOption">Sort by:</label>
+        <select id="sortOption">
+            <option value="createdAt">Created At (Most Recent First)</option>
+            <option value="name">Name</option>
+            <option value="eventDate">Event Date</option>
+        </select>
+    </div>
     <table id="appointmentsTable">
         <thead>
             <tr>
@@ -109,6 +117,9 @@ function displayAppointments(appointments) {
             <td>${appointment.event_location || ''}</td>
         `;
     });
+    
+    // Call sortTable after populating the table
+    sortTable();
 }
 
 function formatServices(services, otherService) {
@@ -159,6 +170,45 @@ function formatDate(dateObj) {
             }
             fetchAppointments(1, currentSortField, currentSortOrder);
         }
+
+        function sortTable() {
+    const table = document.querySelector('table');
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const sortOption = document.getElementById('sortOption').value;
+
+    rows.sort((a, b) => {
+        let aValue, bValue;
+        
+        if (sortOption === 'createdAt') {
+            aValue = new Date(a.cells[0].textContent);
+            bValue = new Date(b.cells[0].textContent);
+            return bValue - aValue; // Most recent first
+        } else if (sortOption === 'name') {
+            aValue = a.cells[1].textContent.toLowerCase();
+            bValue = b.cells[1].textContent.toLowerCase();
+            return aValue.localeCompare(bValue);
+        } else if (sortOption === 'eventDate') {
+            aValue = new Date(a.cells[8].textContent);
+            bValue = new Date(b.cells[8].textContent);
+            return aValue - bValue;
+        }
+    });
+
+    // Clear the table body
+    while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+    }
+
+    // Add sorted rows back to the table
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+// Add event listener to the sort dropdown
+document.getElementById('sortOption').addEventListener('change', sortTable);
+
+    // Call sortTable initially to sort by Created At
+    sortTable();
     </script>
 </body>
 </html>

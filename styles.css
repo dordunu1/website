@@ -306,24 +306,83 @@ h4 {
     margin-bottom: 1rem;
 }
 
-/* Image Grid */
-.image-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-}
-
-.image-grid img {
+.scroll-container {
     width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+    overflow: hidden;
+    margin-bottom: 20px;
 }
 
-.image-grid img:hover {
-    transform: scale(1.05);
+.scroll-content {
+    display: flex;
+    width: 200%; /* Double the width to accommodate duplicated images */
+}
+
+.scroll-content img {
+    width: 300px;
+    height: 350px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+@keyframes scrollLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes scrollRight {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+}
+
+.scroll-left .scroll-content {
+    animation: scrollLeft 30s linear infinite;
+}
+
+.scroll-right .scroll-content {
+    animation: scrollRight 30s linear infinite;
+}
+
+/* Add this to your existing CSS */
+.scroll-container:hover .scroll-content {
+    animation-play-state: paused;
+}
+
+/* Add this to your existing CSS */
+.scroll-content img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.scroll-content img:hover {
+    transform: scale(1.1);
+    z-index: 10;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+.scroll-left .scroll-content,
+.scroll-right .scroll-content {
+  animation-play-state: running !important;
+  transform: translateZ(0);
+}
+
+/* Full-screen image styles */
+.fullscreen-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.fullscreen-image img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
 }
 
 /* Testimonials */
@@ -878,6 +937,33 @@ footer .location-link i {
     }
 }
 
+/* Media query for tablets */
+@media screen and (max-width: 768px) {
+    .scroll-content img {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .scroll-left .scroll-content,
+    .scroll-right .scroll-content {
+        animation-duration: 20s; /* Faster animation for smaller screens */
+    }
+}
+
+/* Media query for mobile phones */
+@media screen and (max-width: 480px) {
+    .scroll-content img {
+        width: 150px;
+        height: 150px;
+        margin-right: 10px; /* Reduce spacing for smaller screens */
+    }
+    
+    .scroll-left .scroll-content,
+    .scroll-right .scroll-content {
+        animation-duration: 15s; /* Even faster for mobile */
+    }
+}
+
 .footer-info p {
     margin: 0;
 }
@@ -1128,7 +1214,6 @@ Collections Menu */
     color: #000200;
 }
 
-/* Media Queries */
 /* Media Queries */
 @media screen and (max-width: 768px) {
     .nav-links {

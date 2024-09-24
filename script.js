@@ -433,3 +433,57 @@ function initializeMobileMenu() {
 document.addEventListener('DOMContentLoaded', initializeMobileMenu);
 // Call this function when the page loads
 document.addEventListener('DOMContentLoaded', lazyLoadBackgroundImages);
+// ... your existing JavaScript code ...
+
+// Swiper initialization
+document.addEventListener('DOMContentLoaded', function() {
+    new Swiper(".portfolio-swiper-top", {
+        slidesPerView: 'auto',
+        spaceBetween: 30,
+        loop: true,
+        autoplay: {
+            delay: 0,
+            disableOnInteraction: false,
+        },
+        speed: 5000,
+    });
+
+    new Swiper(".portfolio-swiper-bottom", {
+        slidesPerView: 'auto',
+        spaceBetween: 30,
+        loop: true,
+        autoplay: {
+            delay: 0,
+            disableOnInteraction: false,
+            reverseDirection: true,
+        },
+        speed: 5000,
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const scrollContainers = document.querySelectorAll('.scroll-container');
+    
+    scrollContainers.forEach(container => {
+        container.addEventListener('click', function(e) {
+            if (e.target.tagName === 'IMG') {
+                openFullscreen(e.target.src);
+            }
+        });
+    });
+});
+
+function openFullscreen(imageSrc) {
+    const fullscreenDiv = document.createElement('div');
+    fullscreenDiv.className = 'fullscreen-image';
+    
+    const img = document.createElement('img');
+    img.src = imageSrc;
+    
+    fullscreenDiv.appendChild(img);
+    document.body.appendChild(fullscreenDiv);
+    
+    fullscreenDiv.addEventListener('click', function() {
+        document.body.removeChild(fullscreenDiv);
+    });
+}

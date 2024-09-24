@@ -97,21 +97,25 @@ exports.handler = async (event, context) => {
           Subject: 'Appointment Confirmation',
           TextPart: `Dear ${data.name}, your appointment for ${servicesText} on ${data.event_date} has been booked.`,
           HTMLPart: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #e04141; text-align: center;">Appointment Booked!</h2>
-          <p>Dear ${data.name},</p>
-          <p>Thank you for choosing AYIWA REIGNS CLOTHING. We're excited to create something beautiful for you!</p>
-           <p>We will give you a call very soon to begin the process and discuss your dream outfit.</p>
-           <p>Get ready for a journey of style and elegance!</p>
-            <h3>Appointment Details:</h3>
-          <ul>
-            <li><strong>Services:</strong> ${servicesText}</li>
-            <li><strong>Event Date:</strong> ${data.event_date}</li>
-            <li><strong>Event Location:</strong> ${data.event_location}</li>
-            <li><strong>Budget:</strong> ${data.budget}</li>
-          </ul>
-          <img src="https://imgur.com/wtbfRCu.png" alt="AYIWA REIGNS CLOTHING Logo" style="display: block; margin: 20px auto 0; max-width: 200px;">
-        </div>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f9f9; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+            <h2 style="color: #e04141; text-align: center; font-size: 24px; margin-bottom: 20px;">Appointment Booked!</h2>
+            <div style="background-color: #ffffff; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+              <p style="font-size: 16px; line-height: 1.5; margin-bottom: 15px;">Dear ${data.name},</p>
+              <p style="font-size: 16px; line-height: 1.5; margin-bottom: 15px;">Thank you for choosing AYIWA REIGNS CLOTHING. We're excited to create something beautiful for you!</p>
+              <p style="font-size: 16px; line-height: 1.5; margin-bottom: 15px;">We will give you a call very soon to begin the process and discuss your dream outfit.</p>
+              <p style="font-size: 16px; line-height: 1.5; margin-bottom: 15px;">Get ready for a journey of style and elegance!</p>
+            </div>
+            <div style="background-color: #ffffff; padding: 20px; border-radius: 5px;">
+              <h3 style="color: #e04141; font-size: 18px; margin-bottom: 15px;">Appointment Details:</h3>
+              <ul style="list-style-type: none; padding-left: 0;">
+                <li style="font-size: 16px; line-height: 1.5; margin-bottom: 10px;"><strong>Services:</strong> ${servicesText}</li>
+                <li style="font-size: 16px; line-height: 1.5; margin-bottom: 10px;"><strong>Event Date:</strong> ${data.event_date}</li>
+                <li style="font-size: 16px; line-height: 1.5; margin-bottom: 10px;"><strong>Event Location:</strong> ${data.event_location}</li>
+                <li style="font-size: 16px; line-height: 1.5;"><strong>Budget:</strong> ${data.budget}</li>
+              </ul>
+            </div>
+            <img src="https://i.imgur.com/wtbfRCu.png" alt="AYIWA REIGNS CLOTHING Logo" style="display: block; margin: 20px auto 0; max-width: 200px;">
+          </div>
         `,
         },
         {

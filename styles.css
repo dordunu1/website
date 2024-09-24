@@ -443,72 +443,17 @@ footer {
     line-height: 1.6;
 }
 
-.custom-select {
-    position: relative;
-    width: 100%;
-    max-width: 300px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
+/* Checkbox styles */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
-.custom-select .select-selected {
-    background-color: #f8f8f8;
-    border: 1px solid #ccc;
-    padding: 8px 12px;
-    cursor: pointer;
-    user-select: none;
-}
-
-.custom-select .select-selected:after {
-    content: '\25BC';
-    position: absolute;
-    top: 50%;
-    right: 12px;
-    transform: translateY(-50%);
-}
-
-.custom-select .select-items {
-    position: absolute;
-    background-color: #f8f8f8;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 99;
-    max-height: 200px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    border-top: none;
-    display: none;
-}
-
-.custom-select .select-items div {
-    padding: 4px 12px;
-    cursor: pointer;
-}
-
-.custom-select .select-items div:hover {
-    background-color: #e8e8e8;
-}
-
-.custom-select .select-items label {
-    display: flex !important;
-    align-items: center !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.custom-select .select-items input[type="checkbox"] {
-    margin: 0 8px 0 0 !important;
-    flex-shrink: 0;
-    width: auto !important;
-}
-
-.custom-select .select-items span {
-    display: inline-block;
-    word-break: break-word;
-    line-height: 1.2;
-    font-size: 14px;
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 /* Appointment Form Styles */

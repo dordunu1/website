@@ -28,10 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Book Appointment functionality
     initializeAppointmentForm();
-    // Add this line to initialize the custom select
-    initializeCustomSelect();
 });
-
 
 function initializeTestimonials() {
     const testimonialSlider = document.querySelector('.testimonial-slider');
@@ -264,10 +261,9 @@ function initializeAppointmentForm() {
     const form = document.getElementById('appointment-form');
     const otherServiceCheckbox = document.getElementById('other-service-checkbox');
     const otherServiceInput = document.getElementById('other-service');
-    const servicesSelect = document.getElementById('services');
 
-    servicesSelect.addEventListener('change', () => {
-        if (Array.from(servicesSelect.selectedOptions).some(option => option.value === 'Other')) {
+    otherServiceCheckbox.addEventListener('change', () => {
+        if (otherServiceCheckbox.checked) {
             otherServiceInput.style.display = 'block';
         } else {
             otherServiceInput.style.display = 'none';
@@ -309,6 +305,25 @@ function initializeAppointmentForm() {
         } catch (error) {
             console.error('Error booking appointment:', error);
             alert('Failed to book appointment: ' + error.message);
+        }
+    });
+}
+
+function showCustomModal(message) {
+    const modal = document.createElement('div');
+    modal.className = 'custom-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <p>${message}</p>
+            <button class="custom-modal-ok-button">OK</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    // Use event delegation
+    modal.addEventListener('click', function(event) {
+        if (event.target.classList.contains('custom-modal-ok-button')) {
+            document.body.removeChild(modal);
         }
     });
 }
@@ -377,48 +392,5 @@ function lazyLoadBackgroundImages() {
     slides.forEach(slide => observer.observe(slide));
 }
 
-
 // Call this function when the page loads
 document.addEventListener('DOMContentLoaded', lazyLoadBackgroundImages);
-
-function initializeCustomSelect() {
-    const customSelect = document.querySelector('.custom-select');
-    const selectSelected = customSelect.querySelector('.select-selected');
-    const selectItems = customSelect.querySelector('.select-items');
-    const otherServiceInput = document.getElementById('other-service');
-
-    selectSelected.addEventListener('click', function(e) {
-        e.stopPropagation();
-        this.classList.toggle('select-arrow-active');
-        selectItems.style.display = selectItems.style.display === 'block' ? 'none' : 'block';
-    });
-
-    document.addEventListener('click', function(e) {
-        if (!customSelect.contains(e.target)) {
-            selectSelected.classList.remove('select-arrow-active');
-            selectItems.style.display = 'none';
-        }
-    });
-
-    const checkboxes = selectItems.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-            updateSelectedText();
-            if (this.value === 'Other') {
-                otherServiceInput.style.display = this.checked ? 'block' : 'none';
-            }
-        });
-    });
-
-    function updateSelectedText() {
-        const selectedOptions = Array.from(checkboxes)
-            .filter(cb => cb.checked)
-            .map(cb => cb.parentElement.textContent.trim());
-        
-        if (selectedOptions.length > 0) {
-            selectSelected.textContent = selectedOptions.join(', ');
-        } else {
-            selectSelected.textContent = 'Services (Select all that apply)';
-        }
-    }
-}

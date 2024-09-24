@@ -17,9 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Collections menu functionality
     initializeCollectionsMenu();
 
-    // Emoji animation
-    startEmojiAnimation();
-
     // Slideshow
     startSlideshow();
 
@@ -134,39 +131,6 @@ function enlargeImage(imageSrc) {
     });
 
     enlargedContainer.style.display = 'flex';
-}
-
-function createFloatingEmoji() {
-    const emojis = ['👗', '👠', '👜', '👒', '👚', '👕', '👖', '🧥', '👘', '👙', '🧦', '👛', '🕶️', '👢'];
-    const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-    const emojiElement = document.createElement('div');
-    emojiElement.classList.add('floating-emoji');
-    emojiElement.textContent = emoji;
-
-    const startPositionY = Math.random() * window.innerHeight;
-    const endPositionY = Math.random() * window.innerHeight;
-    const duration = 15000 + Math.random() * 10000; // 15-25 seconds
-
-    emojiElement.style.left = `${window.innerWidth}px`;
-    emojiElement.style.top = `${startPositionY}px`;
-
-    document.getElementById('emoji-container').appendChild(emojiElement);
-
-    const animation = emojiElement.animate([
-        { transform: `translate(0, 0)` },
-        { transform: `translate(-${window.innerWidth + 100}px, ${endPositionY - startPositionY}px)` }
-    ], {
-        duration: duration,
-        easing: 'linear'
-    });
-
-    animation.onfinish = () => {
-        emojiElement.remove();
-    };
-}
-
-function startEmojiAnimation() {
-    setInterval(createFloatingEmoji, 1000); // Create a new emoji every second
 }
 
 function startSlideshow() {

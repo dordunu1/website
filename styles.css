@@ -816,7 +816,7 @@ footer a:hover {
 }
 
 footer .location-link {
-    color: var(--primary-color);
+    color: #111012;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -828,7 +828,7 @@ footer .location-link:hover {
 }
 
 footer .location-link i {
-    color: var(--primary-color);
+    color: #111012;
 }
 
 .footer h2 {

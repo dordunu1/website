@@ -840,7 +840,7 @@ footer .location-link i {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding-left: 4rem; /* Add padding to the right */
+    padding-left: 20rem; /* Add padding to the right */
 }
 
 .footer-info {
@@ -848,7 +848,7 @@ footer .location-link i {
     flex-direction: column;
     align-items: flex-end;
     gap: 0.5rem; /* Adjust the gap between items as needed */
-    padding-right: 6rem; /* Add padding to the right */
+    padding-right: 25rem; /* Add padding to the right */
 }
 
 .footer-info p {

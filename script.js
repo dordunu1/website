@@ -263,11 +263,7 @@ function initializeAppointmentForm() {
     const otherServiceInput = document.getElementById('other-service');
 
     otherServiceCheckbox.addEventListener('change', () => {
-        if (otherServiceCheckbox.checked) {
-            otherServiceInput.style.display = 'block';
-        } else {
-            otherServiceInput.style.display = 'none';
-        }
+        otherServiceInput.style.display = otherServiceCheckbox.checked ? 'block' : 'none';
     });
 
     form.addEventListener('submit', async (e) => {
@@ -276,7 +272,7 @@ function initializeAppointmentForm() {
         const formData = new FormData(form);
         const data = {
             name: formData.get('name'),
-            email: formData.get('email') || null, // Email is optional
+            email: formData.get('email') || null,
             phone: formData.get('phone'),
             address: formData.get('address'),
             services: formData.getAll('services'),
@@ -298,6 +294,12 @@ function initializeAppointmentForm() {
             const result = await response.json();
             if (response.ok) {
                 showConfirmationCard();
+                form.reset(); // Reset the form
+                otherServiceInput.style.display = 'none'; // Hide the "Other" input
+                // Uncheck all checkboxes
+                form.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
             } else {
                 console.error('Error booking appointment:', result.error);
                 alert('Failed to book appointment: ' + result.error);

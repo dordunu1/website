@@ -25,7 +25,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Book Appointment functionality
     initializeAppointmentForm();
-});
+
+      // Show appointment modal when "Book An Appointment" link in footer is clicked
+      const contactBookAppointment = document.getElementById('contact-book-appointment');
+      const navBookAppointment = document.getElementById('book-appointment-button');
+      const appointmentModal = document.getElementById('appointment-modal');
+      const closeModalButton = document.querySelector('.modal-content .close');
+  
+  
+      if (footerBookAppointment && appointmentModal) {
+        footerBookAppointment.addEventListener('click', function(event) {
+            event.preventDefault();
+            appointmentModal.style.display = 'flex';
+            console.log('Footer appointment link clicked'); // Add this for debugging
+        });
+    } else {
+        console.error('Footer book appointment link or modal not found'); // Add this for debugging
+    }
+  
+          closeModalButton.addEventListener('click', function() {
+              appointmentModal.style.display = 'none';
+          });
+  
+          // Close the modal when clicking outside of it
+          window.addEventListener('click', function(event) {
+              if (event.target == appointmentModal) {
+                  appointmentModal.style.display = 'none';
+              }
+          });
+      }
+  );
 
 function initializeTestimonials() {
     const testimonialSlider = document.querySelector('.testimonial-slider');

@@ -836,6 +836,7 @@ footer .location-link i {
     margin-bottom: 1rem;
 }
 
+/* Footer Links */
 .footer-links {
     display: flex;
     flex-direction: column;
@@ -849,6 +850,31 @@ footer .location-link i {
     align-items: flex-end;
     gap: 0.5rem; /* Adjust the gap between items as needed */
     padding-right: 25rem; /* Add padding to the right */
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .footer-links {
+        padding-left: 2rem; /* Reduce padding for tablets */
+        align-items: center; /* Center align items */
+    }
+
+    .footer-info {
+        padding-right: 2rem; /* Reduce padding for tablets */
+        align-items: center; /* Center align items */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .footer-links {
+        padding-left: 1rem; /* Further reduce padding for mobile */
+        align-items: center; /* Center align items */
+    }
+
+    .footer-info {
+        padding-right: 1rem; /* Further reduce padding for mobile */
+        align-items: center; /* Center align items */
+    }
 }
 
 .footer-info p {

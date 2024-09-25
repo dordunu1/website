@@ -1763,3 +1763,54 @@ Collections Menu */
 .burger {
     z-index: 1000; /* Ensure it's above the mini-cart */
 }
+
+.color-selector {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.color-option {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.color-option.selected {
+    border-color: #000;
+}
+
+.color-option .checkmark {
+    display: none;
+    color: #fff;
+    font-size: 14px;
+    text-shadow: 0 0 2px #000;
+}
+
+.color-option.selected .checkmark {
+    display: block;
+}
+
+.size-selector {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.size-option {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.size-option.selected {
+    background-color: #000;
+    color: #fff;
+}

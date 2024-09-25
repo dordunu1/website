@@ -4,6 +4,63 @@ document.addEventListener('DOMContentLoaded', function() {
     const cartItems = [];
     let cartElement = null;
 
+    // Add color and size selectors to all products
+    const products = document.querySelectorAll('.product');
+    const colorOptions = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+    const sizeOptions = ['S', 'M', 'L', 'XL', 'XXL'];
+
+    products.forEach(product => {
+        const colorSelector = createColorSelector(colorOptions);
+        const sizeSelector = createSizeSelector(sizeOptions);
+        
+        product.insertBefore(sizeSelector, product.querySelector('.add-to-cart'));
+        product.insertBefore(colorSelector, sizeSelector);
+    });
+
+    function createColorSelector(colors) {
+        const container = document.createElement('div');
+        container.className = 'color-selector';
+        const mutedColors = {
+            red: '#D32F2F',
+            orange: '#F57C00',
+            yellow: '#FBC02D',
+            green: '#388E3C',
+            blue: '#1976D2',
+            indigo: '#303F9F',
+            violet: '#7B1FA2'
+        };
+        colors.forEach(color => {
+            const colorOption = document.createElement('div');
+            colorOption.className = 'color-option';
+            colorOption.style.backgroundColor = mutedColors[color] || color;
+            colorOption.setAttribute('data-color', color);
+            colorOption.innerHTML = '<span class="checkmark">✓</span>';
+            colorOption.addEventListener('click', function() {
+                this.parentNode.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+            container.appendChild(colorOption);
+        });
+        return container;
+    }
+
+    function createSizeSelector(sizes) {
+        const container = document.createElement('div');
+        container.className = 'size-selector';
+        sizes.forEach(size => {
+            const sizeOption = document.createElement('button');
+            sizeOption.className = 'size-option';
+            sizeOption.textContent = size;
+            sizeOption.setAttribute('data-size', size);
+            sizeOption.addEventListener('click', function() {
+                this.parentNode.querySelectorAll('.size-option').forEach(el => el.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+            container.appendChild(sizeOption);
+        });
+        return container;
+    }
+
     function createCartElement() {
         if (!cartElement) {
             cartElement = document.createElement('div');
@@ -13,15 +70,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function addToCart(product) {
-        const existingItem = cartItems.find(item => item.id === product.id);
+    function addToCart(productElement) {
+        const colorSelected = productElement.querySelector('.color-option.selected');
+        const sizeSelected = productElement.querySelector('.size-option.selected');
+        
+        if (!colorSelected || !sizeSelected) {
+            alert('Please select both color and size');
+            return;
+        }
+        
+        const color = colorSelected.getAttribute('data-color');
+        const size = sizeSelected.getAttribute('data-size');
+        
+        const product = {
+            id: productElement.querySelector('.add-to-cart').getAttribute('data-item-id'),
+            name: productElement.querySelector('h3').textContent,
+            price: parseFloat(productElement.querySelector('.add-to-cart').getAttribute('data-item-price')),
+            color: color,
+            size: size
+        };
+    
+        const existingItem = cartItems.find(item => 
+            item.id === product.id && item.color === color && item.size === size
+        );
+    
         if (existingItem) {
             existingItem.quantity += 1;
         } else {
             cartItems.push({...product, quantity: 1});
         }
+    
         updateMiniCart();
-       
         saveCartToLocalStorage();
     }
 
@@ -86,11 +165,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     <ul>
                         ${cartItems.map(item => `
                             <li class="cart-item">
-                                ${item.name} x${item.quantity} - ₵${(item.price * item.quantity).toFixed(2)}
+                                ${item.name} - Color: ${item.color}, Size: ${item.size}
+                                x${item.quantity} - ₵${(item.price * item.quantity).toFixed(2)}
                                 <div class="quantity-controls">
-                                    <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                                    <button class="quantity-btn minus" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}">-</button>
                                     <span class="quantity">${item.quantity}</span>
-                                    <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                                    <button class="quantity-btn plus" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}">+</button>
                                 </div>
                             </li>
                         `).join('')}
@@ -98,18 +178,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>Subtotal: ₵${subtotal.toFixed(2)}</p>
                     <p>Delivery Fee: ₵${deliveryFee.toFixed(2)}</p>
                     <p>Total: ₵${total.toFixed(2)}</p>
+                    <h3>Shipping Details</h3>
                     <form id="shipping-form">
                         <input type="text" id="name" placeholder="Full Name" required value="${name}">
                         <input type="email" id="email" placeholder="Email Address" required value="${email}">
                         <input type="text" id="address" placeholder="Shipping Address" required value="${address}">
                         <input type="text" id="city" placeholder="City" required value="${city}">
                         <input type="text" id="phone" placeholder="Phone Number" required value="${phone}">
+                        <input type="hidden" id="order-details" name="order-details" value="${JSON.stringify(cartItems)}">
                     </form>
                     <button id="checkout-button">Proceed to Checkout</button>
                 </div>
             `;
             cartElement.style.display = 'block';
-
+    
             const cityInput = document.getElementById('city');
             if (cityInput) {
                 cityInput.addEventListener('input', updateDeliveryFeeAndTotal);
@@ -119,8 +201,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function updateItemQuantity(id, change) {
-        const item = cartItems.find(item => item.id === id);
+    function updateItemQuantity(id, color, size, change) {
+        const item = cartItems.find(item => item.id === id && item.color === color && item.size === size);
         if (item) {
             item.quantity += change;
             if (item.quantity <= 0) {
@@ -172,7 +254,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     { display_name: "Full Name", variable_name: "full_name", value: name },
                     { display_name: "Shipping Address", variable_name: "shipping_address", value: address },
                     { display_name: "City", variable_name: "city", value: city },
-                    { display_name: "Phone", variable_name: "phone", value: phone }
+                    { display_name: "Phone", variable_name: "phone", value: phone },
+                    { display_name: "Order Details", variable_name: "order_details", value: JSON.stringify(cartItems) }
                 ]
             },
             callback: function(response) {
@@ -206,23 +289,17 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('click', function(e) {
         if (e.target && e.target.classList.contains('add-to-cart')) {
             const productElement = e.target.closest('.product');
-            const product = {
-                id: e.target.getAttribute('data-item-id'),
-                name: productElement.querySelector('h3').textContent,
-                price: parseFloat(e.target.getAttribute('data-item-price')),
-                description: productElement.querySelector('p').textContent,
-                image: productElement.querySelector('img').src
-            };
-            addToCart(product);
-            console.log('Product added to cart:', product);
+            addToCart(productElement);
         } else if (e.target && e.target.id === 'checkout-button') {
             initiatePaystack();
         } else if (e.target && e.target.id === 'close-cart') {
             closeCart();
         } else if (e.target.classList.contains('quantity-btn')) {
             const id = e.target.getAttribute('data-id');
+            const color = e.target.getAttribute('data-color');
+            const size = e.target.getAttribute('data-size');
             const change = e.target.classList.contains('plus') ? 1 : -1;
-            updateItemQuantity(id, change);
+            updateItemQuantity(id, color, size, change);
         }
     });
 

@@ -1558,7 +1558,10 @@ Collections Menu */
     padding: 10px;
     cursor: pointer;
     z-index: 1000;
-  }
+    display: flex;  /* Ensure it's always visible */
+    align-items: center;
+    justify-content: center;
+}
   
   #cart-icon {
     font-size: 24px;
@@ -1575,6 +1578,33 @@ Collections Menu */
     font-size: 12px;
   }
   
+  @media (max-width: 768px) {
+  #mini-cart {
+    top: 60px; /* Adjust based on your header height */
+    right: 10px;
+  }
+  
+  .product {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  
+  .product img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .product h3, .product p, .product .price {
+    text-align: center;
+  }
+  
+  .add-to-cart {
+    width: 100%;
+    padding: 12px 0;
+    margin-top: 10px;
+  }
+}
+
 .product {
     display: flex;
     flex-direction: column;

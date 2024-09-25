@@ -20,8 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             cartItems.push({...product, quantity: 1});
         }
-        updateCartDisplay();
-        showCart();
         updateMiniCart();
         saveCartToLocalStorage();
     }
@@ -30,12 +28,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const cartCount = document.getElementById('cart-count');
         const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
         cartCount.textContent = totalItems;
+        // Make sure this function doesn't show the full cart
     }
 
     function showCart() {
+        updateCartDisplay();  // Make sure the cart content is up to date
         const cartElement = document.getElementById('cart');
         if (cartElement) {
             cartElement.style.display = 'block';
+            cartElement.classList.add('show');
         }
         updateMiniCart();
     }

@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
             cartItems.push({...product, quantity: 1});
         }
         updateMiniCart();
-        updateCartDisplay();
+       
         saveCartToLocalStorage();
     }
 

@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
             cartItems.push({...product, quantity: 1});
         }
         updateMiniCart();
+        updateCartDisplay();
         saveCartToLocalStorage();
     }
 
@@ -28,11 +29,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const cartCount = document.getElementById('cart-count');
         const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
         cartCount.textContent = totalItems;
-        // Make sure this function doesn't show the full cart
     }
 
     function showCart() {
-        updateCartDisplay();  // Make sure the cart content is up to date
+        updateCartDisplay();
         const cartElement = document.getElementById('cart');
         if (cartElement) {
             cartElement.style.display = 'block';
@@ -41,12 +41,44 @@ document.addEventListener('DOMContentLoaded', function() {
         updateMiniCart();
     }
 
+    function calculateDeliveryFee() {
+        const city = document.getElementById('city')?.value.trim().toLowerCase() || '';
+        return city === 'kumasi' ? 30 : city ? 50 : 0; // Return 0 if city is not set
+    }
+
+    function updateDeliveryFeeAndTotal() {
+        const deliveryFee = calculateDeliveryFee();
+        const subtotal = calculateSubtotal();
+        const total = subtotal + deliveryFee;
+
+        const deliveryFeeElement = document.querySelector('#cart p:nth-of-type(2)');
+        const totalElement = document.querySelector('#cart p:nth-of-type(3)');
+
+        if (deliveryFeeElement) {
+            deliveryFeeElement.textContent = `Delivery Fee: ₵${deliveryFee.toFixed(2)}`;
+        }
+        if (totalElement) {
+            totalElement.textContent = `Total: ₵${total.toFixed(2)}`;
+        }
+    }
+    
     function updateCartDisplay() {
         createCartElement();
         const cartElement = document.getElementById('cart');
         if (!cartElement) return;
     
         if (cartItems.length > 0) {
+            const deliveryFee = calculateDeliveryFee();
+            const subtotal = calculateSubtotal();
+            const total = subtotal + deliveryFee;
+    
+            // Store current input values
+            const name = document.getElementById('name')?.value || '';
+            const email = document.getElementById('email')?.value || '';
+            const address = document.getElementById('address')?.value || '';
+            const city = document.getElementById('city')?.value || '';
+            const phone = document.getElementById('phone')?.value || '';
+    
             cartElement.innerHTML = `
                 <div class="cart-container">
                     <button id="close-cart" aria-label="Close cart">×</button>
@@ -63,18 +95,25 @@ document.addEventListener('DOMContentLoaded', function() {
                             </li>
                         `).join('')}
                     </ul>
-                    <p>Total: ₵${calculateTotal().toFixed(2)}</p>
+                    <p>Subtotal: ₵${subtotal.toFixed(2)}</p>
+                    <p>Delivery Fee: ₵${deliveryFee.toFixed(2)}</p>
+                    <p>Total: ₵${total.toFixed(2)}</p>
                     <form id="shipping-form">
-                        <input type="text" id="name" placeholder="Full Name" required>
-                        <input type="email" id="email" placeholder="Email Address" required>
-                        <input type="text" id="address" placeholder="Shipping Address" required>
-                        <input type="text" id="city" placeholder="City" required>
-                        <input type="text" id="phone" placeholder="Phone Number" required>
+                        <input type="text" id="name" placeholder="Full Name" required value="${name}">
+                        <input type="email" id="email" placeholder="Email Address" required value="${email}">
+                        <input type="text" id="address" placeholder="Shipping Address" required value="${address}">
+                        <input type="text" id="city" placeholder="City" required value="${city}">
+                        <input type="text" id="phone" placeholder="Phone Number" required value="${phone}">
                     </form>
                     <button id="checkout-button">Proceed to Checkout</button>
                 </div>
             `;
             cartElement.style.display = 'block';
+
+            const cityInput = document.getElementById('city');
+            if (cityInput) {
+                cityInput.addEventListener('input', updateDeliveryFeeAndTotal);
+            }
         } else {
             cartElement.style.display = 'none';
         }
@@ -101,8 +140,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function calculateTotal() {
+    function calculateSubtotal() {
         return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    }
+
+    function calculateTotal() {
+        return calculateSubtotal() + calculateDeliveryFee();
     }
 
     function initiatePaystack() {

@@ -1,9 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const axios = require('axios');
+const cors = require('cors');
+app.use(cors());
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+const PAYSTACK_SECRET_KEY = 'pk_test_5cfca3319e17ddb0315d10669c2239a4a56f770c';
 
 // Middleware
 app.use(bodyParser.json());
@@ -47,6 +52,35 @@ app.get('/api/check', async (req, res) => {
     res.json({ count: data.length, appointments: data });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+
+// New API endpoint for Paystack payment verification
+app.post('/verify-payment', async (req, res) => {
+  const { reference } = req.body;
+  
+  try {
+    const response = await axios.get(
+      `https://api.paystack.co/transaction/verify/${reference}`,
+      {
+        headers: {
+          Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`
+        }
+      }
+    );
+    
+    if (response.data.data.status === 'success') {
+      // Payment verified, process the order
+      res.json({ success: true, message: 'Payment verified' });
+    } else {
+      res.json({ success: false, message: 'Payment failed' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error verifying payment' });
   }
 });
 

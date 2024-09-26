@@ -1,37 +1,50 @@
 let allProducts = [];
 
 function loadAllProducts() {
-    // For now, we'll use the mock data from loadRelatedProducts
     allProducts = [
         { id: 'nube-001', name: 'Nube Dress', price: 7.00, image: 'images/meiwa9.JPG', description: 'A simple design to bring out your beauty' },
         { id: 'nube-002', name: 'Nube Dress 2', price: 7.00, image: 'images/meiwa9.JPG', description: 'Elegant and comfortable' },
         { id: 'meiwa-001', name: 'Meiwa Dress', price: 8.00, image: 'images/meiwa6.JPG', description: 'Stylish and modern' },
         { id: 'meiwa-002', name: 'Meiwa Dress 2', price: 7.50, image: 'images/meiwa3.JPG', description: 'Chic and versatile' }
     ];
-    // In a real scenario, you would fetch this data from an API or load it from store.js
+    console.log("All products loaded:", allProducts);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     loadAllProducts();
     const urlParams = new URLSearchParams(window.location.search);
     const itemId = urlParams.get('id');
+    console.log("Item ID from URL:", itemId);
+    console.log("All products:", allProducts);
 
     const itemDetails = getItemDetails(itemId);
+    console.log("Item details:", itemDetails);
 
     if (itemDetails) {
         displayProductDetails(itemDetails);
         displayRelatedProducts(itemId);
     } else {
-        console.error('Product not found');
+        console.error('Product not found for ID:', itemId);
+        displayErrorMessage();
     }
 });
 
 function getItemDetails(itemId) {
-    return allProducts.find(product => product.id === itemId) || null;
+    console.log("Searching for item with ID:", itemId);
+    const foundItem = allProducts.find(product => product.id === itemId);
+    console.log("Found item:", foundItem);
+    return foundItem || null;
 }
 
 function displayProductDetails(product) {
+    if (!product) {
+        console.error('Attempted to display details for undefined product');
+        return;
+    }
     document.getElementById('main-image').src = product.image;
+    document.getElementById('main-image').onerror = function() {
+        this.src = 'placeholder.jpg';
+    };
     document.getElementById('item-name').textContent = product.name;
     document.getElementById('item-price').textContent = `₵${product.price.toFixed(2)}`;
     document.getElementById('item-description').textContent = product.description;
@@ -102,29 +115,11 @@ function addToCart(item, color, size) {
         quantity: 1
     };
 
-    // This function should be implemented in your store.js
-    // It should add the item to the cart and update the display
     if (typeof window.addToCartFromItemPage === 'function') {
         window.addToCartFromItemPage(cartItem);
     } else {
         console.error('addToCartFromItemPage function not found in store.js');
     }
-}
-
-function loadRelatedProducts() {
-    // This function should load related products
-    // For now, we'll use a mock implementation
-    const relatedProductsContainer = document.getElementById('related-products');
-    const mockRelatedProducts = [
-        { id: 'nube-002', name: 'Nube Dress 2', price: 7.00, image: 'images/meiwa9.JPG' },
-        { id: 'meiwa-001', name: 'Meiwa Dress', price: 8.00, image: 'images/meiwa6.JPG' },
-        { id: 'meiwa-002', name: 'Meiwa Dress 2', price: 7.50, image: 'images/meiwa3.JPG' }
-    ];
-
-    mockRelatedProducts.forEach(product => {
-        const productElement = createProductElement(product);
-        relatedProductsContainer.appendChild(productElement);
-    });
 }
 
 function displayRelatedProducts(currentProductId) {
@@ -142,12 +137,11 @@ function displayRelatedProducts(currentProductId) {
     });
 }
 
-
 function createProductElement(product) {
     const element = document.createElement('div');
     element.className = 'product';
     element.innerHTML = `
-        <img src="${product.image}" alt="${product.name}">
+        <img src="${product.image || 'placeholder.jpg'}" alt="${product.name}" onerror="this.src='placeholder.jpg'">
         <h3>${product.name}</h3>
         <p>${product.description || 'Stylish item from our collection'}</p>
         <p>Price: ₵${product.price.toFixed(2)}</p>
@@ -156,4 +150,13 @@ function createProductElement(product) {
         window.location.href = `item.html?id=${product.id}`;
     });
     return element;
+}
+
+function displayErrorMessage() {
+    const mainContent = document.querySelector('main');
+    mainContent.innerHTML = `
+        <h2>Product Not Found</h2>
+        <p>Sorry, we couldn't find the product you're looking for.</p>
+        <a href="store.html">Return to Store</a>
+    `;
 }

@@ -247,19 +247,20 @@ document.addEventListener('DOMContentLoaded', function() {
         setupDeliveryFeeUpdate();
     }
 
-    function updateItemQuantity(id, color, size, change) {
-        const item = cartItems.find(item => item.id === id && item.color === color && item.size === size);
-        if (item) {
-            item.quantity += change;
-            if (item.quantity <= 0) {
-                const index = cartItems.indexOf(item);
-                cartItems.splice(index, 1);
-            }
-            updateCartDisplay();
-            updateMiniCart();
-            saveCartToLocalStorage();
+    // Update the updateItemQuantity function to ensure it's working correctly:
+function updateItemQuantity(id, color, size, change) {
+    const item = cartItems.find(item => item.id === id && item.color === color && item.size === size);
+    if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+            const index = cartItems.indexOf(item);
+            cartItems.splice(index, 1);
         }
+        updateCartDisplay();
+        updateMiniCart();
+        saveCartToLocalStorage();
     }
+}
 
     function closeCart() {
         const cartElement = document.getElementById('cart');
@@ -334,23 +335,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Event listeners
-    document.addEventListener('click', function(e) {
-        if (e.target && e.target.classList.contains('add-to-cart')) {
-            const productElement = e.target.closest('.product');
-            addToCart(productElement);
-        } else if (e.target && e.target.id === 'checkout-button') {
-            initiatePaystack();
-        } else if (e.target && e.target.id === 'close-cart') {
-            closeCart();
-        } else if (e.target.classList.contains('quantity-btn')) {
-            const id = e.target.getAttribute('data-id');
-            const color = e.target.getAttribute('data-color');
-            const size = e.target.getAttribute('data-size');
-            const change = e.target.classList.contains('plus') ? 1 : -1;
-            updateItemQuantity(id, color, size, change);
-        }
-    });
+    // Replace the existing event listener for document clicks with this updated version:
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.classList.contains('add-to-cart')) {
+        const productElement = e.target.closest('.product');
+        addToCart(productElement);
+    } else if (e.target && e.target.id === 'checkout-button') {
+        initiatePaystack();
+    } else if (e.target && e.target.id === 'close-cart') {
+        closeCart();
+    } else if (e.target && e.target.classList.contains('quantity-btn')) {
+        const id = e.target.getAttribute('data-id');
+        const color = e.target.getAttribute('data-color');
+        const size = e.target.getAttribute('data-size');
+        const change = e.target.classList.contains('plus') ? 1 : -1;
+        updateItemQuantity(id, color, size, change);
+    }
+});
 
     document.getElementById('mini-cart').addEventListener('click', showCart);
 

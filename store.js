@@ -1,12 +1,12 @@
 const paystackPublicKey = 'pk_live_d14897378376801dca7720b66df6e59570a5d8f9';
+let cartItems = [];
 
 document.addEventListener('DOMContentLoaded', function() {
-    const cartItems = [];
     let cartElement = null;
 
     // Add color and size selectors to all products
     const products = document.querySelectorAll('.product');
-    const colorOptions = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+    const colorOptions = ['white', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
     const sizeOptions = ['S', 'M', 'L', 'XL', 'XXL'];
 
     products.forEach(product => {
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const container = document.createElement('div');
         container.className = 'color-selector';
         const mutedColors = {
+            white: '#FFFFFF',
             red: '#D32F2F',
             orange: '#F57C00',
             yellow: '#FBC02D',
@@ -34,6 +35,9 @@ document.addEventListener('DOMContentLoaded', function() {
             colorOption.className = 'color-option';
             colorOption.style.backgroundColor = mutedColors[color] || color;
             colorOption.setAttribute('data-color', color);
+            if (color === 'white') {
+                colorOption.classList.add('white-option');
+            }
             colorOption.innerHTML = '<span class="checkmark">✓</span>';
             colorOption.addEventListener('click', function() {
                 this.parentNode.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
@@ -71,37 +75,49 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function addToCart(productElement) {
-        const colorSelected = productElement.querySelector('.color-option.selected');
-        const sizeSelected = productElement.querySelector('.size-option.selected');
-        
-        if (!colorSelected || !sizeSelected) {
-            alert('Please select both color and size');
-            return;
+        if (productElement instanceof HTMLElement) {
+            // This is called from the store page
+            const colorSelected = productElement.querySelector('.color-option.selected');
+            const sizeSelected = productElement.querySelector('.size-option.selected');
+            
+            if (!colorSelected || !sizeSelected) {
+                alert('Please select both color and size');
+                return;
+            }
+            
+            const color = colorSelected.getAttribute('data-color');
+            const size = sizeSelected.getAttribute('data-size');
+            
+            const product = {
+                id: productElement.querySelector('.add-to-cart').getAttribute('data-item-id'),
+                name: productElement.querySelector('h3').textContent,
+                price: parseFloat(productElement.querySelector('.add-to-cart').getAttribute('data-item-price')),
+                color: color,
+                size: size
+            };
+            
+            addItemToCart(product);
+        } else {
+            // This is called from the item page
+            addItemToCart(productElement);
         }
-        
-        const color = colorSelected.getAttribute('data-color');
-        const size = sizeSelected.getAttribute('data-size');
-        
-        const product = {
-            id: productElement.querySelector('.add-to-cart').getAttribute('data-item-id'),
-            name: productElement.querySelector('h3').textContent,
-            price: parseFloat(productElement.querySelector('.add-to-cart').getAttribute('data-item-price')),
-            color: color,
-            size: size
-        };
-    
+    }
+
+    function addItemToCart(product) {
         const existingItem = cartItems.find(item => 
-            item.id === product.id && item.color === color && item.size === size
+            item.id === product.id && item.color === product.color && item.size === product.size
         );
-    
+
         if (existingItem) {
             existingItem.quantity += 1;
         } else {
             cartItems.push({...product, quantity: 1});
         }
-    
+
         updateMiniCart();
         saveCartToLocalStorage();
+        updateCartDisplay();
+        showCart();
     }
 
     function updateMiniCart() {
@@ -120,19 +136,13 @@ document.addEventListener('DOMContentLoaded', function() {
         updateMiniCart();
     }
 
-    function calculateDeliveryFee() {
-        const city = document.getElementById('city')?.value.trim().toLowerCase() || '';
-        return city === 'kumasi' ? 30 : city ? 50 : 0; // Return 0 if city is not set
-    }
-
-    function updateDeliveryFeeAndTotal() {
+    function updateDeliveryFee() {
         const deliveryFee = calculateDeliveryFee();
+        const deliveryFeeElement = document.querySelector('.cart-details p:nth-of-type(2)');
+        const totalElement = document.querySelector('.cart-details p:nth-of-type(3)');
         const subtotal = calculateSubtotal();
         const total = subtotal + deliveryFee;
-
-        const deliveryFeeElement = document.querySelector('#cart p:nth-of-type(2)');
-        const totalElement = document.querySelector('#cart p:nth-of-type(3)');
-
+    
         if (deliveryFeeElement) {
             deliveryFeeElement.textContent = `Delivery Fee: ₵${deliveryFee.toFixed(2)}`;
         }
@@ -140,6 +150,46 @@ document.addEventListener('DOMContentLoaded', function() {
             totalElement.textContent = `Total: ₵${total.toFixed(2)}`;
         }
     }
+
+    function setupDeliveryFeeUpdate() {
+        const cityInput = document.getElementById('city');
+        const regionInput = document.getElementById('region');
+        if (cityInput && regionInput) {
+            cityInput.addEventListener('input', updateDeliveryFee);
+            regionInput.addEventListener('input', updateDeliveryFee);
+        }
+    }
+    
+    function updateDeliveryFee() {
+        const deliveryFee = calculateDeliveryFee();
+        const deliveryFeeElement = document.querySelector('.cart-details p:nth-of-type(2)');
+        const totalElement = document.querySelector('.cart-details p:nth-of-type(3)');
+        const subtotal = calculateSubtotal();
+        const total = subtotal + deliveryFee;
+    
+        if (deliveryFeeElement) {
+            deliveryFeeElement.textContent = `Delivery Fee: ₵${deliveryFee.toFixed(2)}`;
+        }
+        if (totalElement) {
+            totalElement.textContent = `Total: ₵${total.toFixed(2)}`;
+        }
+    }
+
+    function calculateDeliveryFee() {
+    const cityInput = document.getElementById('city');
+    const regionInput = document.getElementById('region');
+    
+    if (cityInput && regionInput) {
+        const city = cityInput.value.trim().toLowerCase();
+        const region = regionInput.value.trim().toLowerCase();
+        
+        if (city === 'kumasi' || region === 'ashanti') {
+            return 30;
+        }
+    }
+    
+    return 50; // Default delivery fee
+}
     
     function updateCartDisplay() {
         createCartElement();
@@ -151,54 +201,50 @@ document.addEventListener('DOMContentLoaded', function() {
             const subtotal = calculateSubtotal();
             const total = subtotal + deliveryFee;
     
-            // Store current input values
-            const name = document.getElementById('name')?.value || '';
-            const email = document.getElementById('email')?.value || '';
-            const address = document.getElementById('address')?.value || '';
-            const city = document.getElementById('city')?.value || '';
-            const phone = document.getElementById('phone')?.value || '';
-    
             cartElement.innerHTML = `
                 <div class="cart-container">
                     <button id="close-cart" aria-label="Close cart">×</button>
                     <h2>Your Cart</h2>
-                    <ul>
-                        ${cartItems.map(item => `
-                            <li class="cart-item">
-                                ${item.name} - Color: ${item.color}, Size: ${item.size}
-                                x${item.quantity} - ₵${(item.price * item.quantity).toFixed(2)}
-                                <div class="quantity-controls">
-                                    <button class="quantity-btn minus" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}">-</button>
-                                    <span class="quantity">${item.quantity}</span>
-                                    <button class="quantity-btn plus" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}">+</button>
-                                </div>
-                            </li>
-                        `).join('')}
-                    </ul>
-                    <p>Subtotal: ₵${subtotal.toFixed(2)}</p>
-                    <p>Delivery Fee: ₵${deliveryFee.toFixed(2)}</p>
-                    <p>Total: ₵${total.toFixed(2)}</p>
-                    <h3>Shipping Details</h3>
-                    <form id="shipping-form">
-                        <input type="text" id="name" placeholder="Full Name" required value="${name}">
-                        <input type="email" id="email" placeholder="Email Address" required value="${email}">
-                        <input type="text" id="address" placeholder="Shipping Address" required value="${address}">
-                        <input type="text" id="city" placeholder="City" required value="${city}">
-                        <input type="text" id="phone" placeholder="Phone Number" required value="${phone}">
-                        <input type="hidden" id="order-details" name="order-details" value="${JSON.stringify(cartItems)}">
-                    </form>
-                    <button id="checkout-button">Proceed to Checkout</button>
+                    <div class="cart-details">
+                        <ul>
+                            ${cartItems.map(item => `
+                                <li class="cart-item">
+                                    ${item.name} - Color: ${item.color}, Size: ${item.size}
+                                    x${item.quantity} - ₵${(item.price * item.quantity).toFixed(2)}
+                                    <div class="quantity-controls">
+                                        <button class="quantity-btn minus" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}">-</button>
+                                        <span class="quantity">${item.quantity}</span>
+                                        <button class="quantity-btn plus" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}">+</button>
+                                    </div>
+                                </li>
+                            `).join('')}
+                        </ul>
+                        <p>Subtotal: ₵${subtotal.toFixed(2)}</p>
+                        <p>Delivery Fee: ₵${deliveryFee.toFixed(2)}</p>
+                        <p>Total: ₵${total.toFixed(2)}</p>
+                    </div>
+                    <div class="shipping-details">
+                        <h3>Shipping Details</h3>
+                        <form id="shipping-form">
+                            <input type="email" id="email" placeholder="Email Address" required>
+                            <input type="text" id="first-name" placeholder="First Name" required>
+                            <input type="text" id="last-name" placeholder="Last Name" required>
+                            <input type="text" id="address" placeholder="Address" required>
+                            <input type="text" id="city" placeholder="City" required>
+                            <input type="text" id="region" placeholder="Region" required>
+                            <input type="text" id="postal-code" placeholder="Postal Code" required>
+                            <input type="tel" id="phone" placeholder="Phone Number" required>
+                        </form>
+                        <button id="checkout-button">Place Order</button>
+                    </div>
                 </div>
             `;
-            cartElement.style.display = 'block';
-    
-            const cityInput = document.getElementById('city');
-            if (cityInput) {
-                cityInput.addEventListener('input', updateDeliveryFeeAndTotal);
-            }
         } else {
-            cartElement.style.display = 'none';
+            cartElement.innerHTML = '<p>Your cart is empty</p>';
         }
+        
+        // Add this line at the end of the function
+        setupDeliveryFeeUpdate();
     }
 
     function updateItemQuantity(id, color, size, change) {
@@ -236,13 +282,15 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Please fill in all required fields');
             return;
         }
-
-        const name = document.getElementById('name').value;
+    
+        const firstName = document.getElementById('first-name').value;
+        const lastName = document.getElementById('last-name').value;
         const email = document.getElementById('email').value;
         const address = document.getElementById('address').value;
         const city = document.getElementById('city').value;
+        const region = document.getElementById('region').value;
         const phone = document.getElementById('phone').value;
-
+    
         const handler = PaystackPop.setup({
             key: paystackPublicKey,
             email: email,
@@ -251,9 +299,10 @@ document.addEventListener('DOMContentLoaded', function() {
             ref: '' + Math.floor((Math.random() * 1000000000) + 1),
             metadata: {
                 custom_fields: [
-                    { display_name: "Full Name", variable_name: "full_name", value: name },
+                    { display_name: "Full Name", variable_name: "full_name", value: `${firstName} ${lastName}` },
                     { display_name: "Shipping Address", variable_name: "shipping_address", value: address },
                     { display_name: "City", variable_name: "city", value: city },
+                    { display_name: "Region", variable_name: "region", value: region },
                     { display_name: "Phone", variable_name: "phone", value: phone },
                     { display_name: "Order Details", variable_name: "order_details", value: JSON.stringify(cartItems) }
                 ]
@@ -305,6 +354,55 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('mini-cart').addEventListener('click', showCart);
 
+    function makeProductCardsClickable() {
+        console.log("makeProductCardsClickable function called");
+        const productCards = document.querySelectorAll('.product');
+        console.log(`Found ${productCards.length} product cards`);
+        
+        productCards.forEach((card, index) => {
+            const addToCartButton = card.querySelector('.add-to-cart');
+            const productId = addToCartButton.getAttribute('data-item-id');
+            console.log(`Setting up click event for product ${index + 1} with ID: ${productId}`);
+
+            card.addEventListener('click', function(e) {
+                console.log(`Card clicked for product ${index + 1}`);
+                if (!e.target.classList.contains('add-to-cart') && 
+                    !e.target.classList.contains('color-option') && 
+                    !e.target.classList.contains('size-option')) {
+                    console.log(`Navigating to item.html?id=${productId}`);
+                    window.location.href = `item.html?id=${productId}`;
+                } else {
+                    console.log('Click was on add-to-cart, color-option, or size-option');
+                }
+            });
+
+            // Prevent propagation for color and size selectors
+            const colorSelector = card.querySelector('.color-selector');
+            const sizeSelector = card.querySelector('.size-selector');
+            if (colorSelector) {
+                colorSelector.addEventListener('click', (e) => {
+                    console.log('Color selector clicked');
+                    e.stopPropagation();
+                });
+            }
+            if (sizeSelector) {
+                sizeSelector.addEventListener('click', (e) => {
+                    console.log('Size selector clicked');
+                    e.stopPropagation();
+                });
+            }
+        });
+    }
+
     // Load cart from local storage when the page loads
     loadCartFromLocalStorage();
+
+    // Make product cards clickable
+    makeProductCardsClickable();
+
+    // Global function to add items to cart from item page
+    window.addToCartFromItemPage = function(cartItem) {
+        addItemToCart(cartItem);
+        alert('Item added to cart!');
+    };
 });

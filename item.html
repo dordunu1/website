@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYIWA REIGNS CLOTHING - Item Details</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="logo.png" alt="AYIWA REIGNS CLOTHING Logo" loading="lazy">
+                <div class="brand-text">
+                    <span class="brand-name">AYIWA REIGNS CLOTHING</span>
+                    <span class="brand-motto">Love clothes, love style</span>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="index.html#book-appointment" id="book-appointment-button">BOOK APPOINTMENT</a></li>
+                <li class="collections-menu">
+                    <a href="index.html#collections">COLLECTIONS</a>
+                    <ul class="collections-dropdown">
+                        <li><a href="index.html#nube">NUBÉ</a></li>
+                        <li><a href="index.html#meiwa">MEIWA DRESS</a></li>
+                        <li><a href="index.html#bubu">BUBU</a></li>
+                    </ul>
+                </li>
+                <li><a href="pricing.html">PRICING</a></li>
+                <li><a href="store-policy.html">STORE POLICY</a></li>
+                <li class="more-menu">
+                    <a href="#" class="more-button">More</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html#contact">CONTACT</a></li>
+                        <li><a href="index.html#about">ABOUT</a></li>
+                        <li><a href="#shipping-returns">SHIPPING & RETURNS</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <a href="store.html" class="back-to-store">Back to Store</a>
+        <div class="item-container">
+            <div class="item-image">
+                <img id="main-image" class="main-product-image" src="" alt="Product Image">
+            </div>
+            <div class="item-details">
+                <h1 id="item-name"></h1>
+                <div class="item-type">Dress</div>
+                <div class="item-rating">
+                    <span class="stars">★★★★☆</span>
+                    <span class="review-count">(53)</span>
+                </div>
+                <p id="item-price"></p>
+                <p>Incl. VAT (GH). Plus delivery.</p>
+                <button id="add-to-cart" class="add-to-cart">Add to Cart</button>
+                <div id="color-selector"></div>
+                <div id="size-selector"></div>
+                <p id="item-description"></p>
+                <p id="item-availability">In stock. We will prepare it as soon as you order it.</p>
+                <p id="item-delivery">Delivery time: 1-2 business days</p>
+                <p id="item-material">100% cotton</p>
+                <div class="item-actions">
+                    <button>More products with this design</button>
+                    <button>Product details</button>
+                </div>
+            </div>
+        </div>
+        <div class="more-products">
+            <h2>More Products</h2>
+            <div id="related-products" class="product-grid">
+                <!-- Related products will be dynamically added here -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 AYIWA REIGNS CLOTHING. All rights reserved.</p>
+        <a href="https://www.google.com/maps/place/Ayiwa+reigns+clothing/@6.7174915,-1.5620347,15z/data=!4m2!3m1!1s0x0:0x11edaf4af31818b1?sa=X&ved=1t:2428&ictx=111" target="_blank" class="location-link">
+            <i class="fas fa-map-marker-alt"></i> Find us here
+        </a>
+    </footer>
+
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="store.js"></script>
+    <script src="item.js"></script>
+    <div id="mini-cart">
+        <span id="cart-icon">🛒</span>
+        <span id="cart-count">0</span>
+    </div>
+</body>
+</html>

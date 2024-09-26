@@ -4,8 +4,18 @@ function loadAllProducts() {
     allProducts = [
         { id: 'nube-001', name: 'Nube Dress', price: 7.00, image: 'images/meiwa9.JPG', description: 'A simple design to bring out your beauty' },
         { id: 'nube-002', name: 'Nube Dress 2', price: 7.00, image: 'images/meiwa9.JPG', description: 'Elegant and comfortable' },
+        { id: 'nube-003', name: 'Nube Dress 3', price: 7.00, image: 'images/meiwa9.JPG', description: 'Stylish and comfortable' },
+        { id: 'nube-004', name: 'Nube Dress 4', price: 7.00, image: 'images/meiwa9.JPG', description: 'Modern and chic' },
+        { id: 'nube-005', name: 'Nube Dress 5', price: 7.00, image: 'images/meiwa9.JPG', description: 'Elegant simplicity' },
+        { id: 'nube-006', name: 'Nube Dress 6', price: 7.00, image: 'images/meiwa9.JPG', description: 'Classic beauty' },
         { id: 'meiwa-001', name: 'Meiwa Dress', price: 8.00, image: 'images/meiwa6.JPG', description: 'Stylish and modern' },
-        { id: 'meiwa-002', name: 'Meiwa Dress 2', price: 7.50, image: 'images/meiwa3.JPG', description: 'Chic and versatile' }
+        { id: 'meiwa-002', name: 'Meiwa Dress 2', price: 7.50, image: 'images/meiwa3.JPG', description: 'Chic and versatile' },
+        { id: 'meiwa-003', name: 'Meiwa Dress 3', price: 7.50, image: 'images/meiwa4.JPG', description: 'Bold and beautiful' },
+        { id: 'meiwa-004', name: 'Meiwa Dress 4', price: 9.00, image: 'images/meiwa4.JPG', description: 'Sophisticated style' },
+        { id: 'meiwa-005', name: 'Meiwa Dress 5', price: 8.50, image: 'images/meiwa5.JPG', description: 'Contemporary elegance' },
+        { id: 'meiwa-006', name: 'Meiwa Dress 6', price: 7.75, image: 'images/meiwa1.JPG', description: 'Classic with a twist' },
+        { id: 'meiwa-007', name: 'Meiwa Dress 7', price: 8.25, image: 'images/meiwa2.JPG', description: 'Effortless beauty' },
+        { id: 'meiwa-008', name: 'Meiwa Dress 8', price: 8.75, image: 'images/nube9.JPG', description: 'Trendsetting style' }
     ];
     console.log("All products loaded:", allProducts);
 }
